@@ -1,590 +1,116 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* style.css (BLOQUE DE LOGIN COMPLETO) */
 
-/* =====================================================
-   ALVIC SAV PORTAL - Warm Light Premium v3 (Fixed)
-   ===================================================== */
-:root {
-  /* Warm beige/cream palette */
-  --bg-page: #f5f2ee;
-  --bg-surface: #faf8f5;
-  --bg-inset: #edeae4;
-  --bg-hover: #f1edf0;
-
-  --card-bg: rgba(255, 253, 250, 0.9);
-  --card-border: rgba(210, 200, 188, 0.6);
-  --card-shadow: 0 4px 20px rgba(100, 80, 60, 0.08);
-  --card-shadow-lg: 0 10px 32px rgba(100, 80, 60, 0.12);
-
-  /* Brand accent */
-  --primary: #5b50e8;
-  --primary-light: #ece9ff;
-  --primary-dark: #4338ca;
-  --primary-glow: rgba(91, 80, 232, 0.18);
-  --accent: #0891b2;
-  --success: #059669;
-  --success-light: #ecfdf5;
-  --warning: #d97706;
-  --warning-light: #fffbeb;
-  --error: #dc2626;
-
-  /* Typography */
-  --text-headline: #1b1916;
-  --text-body: #3d3630;
-  --text-secondary: #6e6258;
-  --text-muted: #a0938a;
-
-  --radius-sm: 8px;
-  --radius: 14px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-
-  --font: 'Inter', -apple-system, sans-serif;
-  --transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* =====================================================
-   RESET & BASE
-   ===================================================== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: var(--font);
-  background-color: var(--bg-page);
-  color: var(--text-body);
-  line-height: 1.5;
-  min-height: 100vh;
-  background-image:
-    radial-gradient(ellipse 70% 50% at 15% 0%, rgba(215, 200, 175, 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(200, 190, 220, 0.2) 0%, transparent 60%);
-}
-
-#app {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* =====================================================
-   LAYOUT COMPONENTS
-   ===================================================== */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 40px;
-}
-
-header {
-  height: 66px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px;
-  background: rgba(250, 248, 245, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--card-border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.logo {
-  font-size: 1.1rem;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  color: var(--text-headline);
-}
-
-.logo strong {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.logo span {
-  color: var(--text-muted);
-  font-weight: 500;
-  font-size: 0.9rem;
-  margin-left: 4px;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-/* =====================================================
-   SHARED STYLES
-   ===================================================== */
-.glass {
-  background: var(--card-bg);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--card-shadow);
-  transition: var(--transition);
-}
-
-.btn,
-.btn-primary,
-.btn-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: var(--radius);
-  border: none;
-  cursor: pointer;
-  font-family: var(--font);
-  font-weight: 600;
-  font-size: 0.88rem;
-  transition: var(--transition);
-  white-space: nowrap;
-}
-
-.btn {
-  background: var(--bg-inset);
-  color: var(--text-secondary);
-  border: 1px solid var(--card-border);
-}
-
-.btn:hover {
-  background: var(--bg-hover);
-  color: var(--text-body);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-  box-shadow: 0 4px 12px var(--primary-glow);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(91, 80, 232, 0.25);
-}
-
-/* =====================================================
-   FORM & INPUTS
-   ===================================================== */
-.input-group {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-label {
-  font-size: 0.7rem;
-  font-weight: 700;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 12px 14px;
-  background: var(--bg-surface);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-sm);
-  color: var(--text-body);
-  font-family: var(--font);
-  font-size: 0.92rem;
-  transition: var(--transition);
-}
-
-.lang-select {
-  font-family: "Twemoji Mozilla", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", var(--font);
-  font-size: 1rem;
-  width: auto;
-  padding: 6px 10px;
-  cursor: pointer;
-  background-color: var(--card-bg);
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  background: white;
-  box-shadow: 0 0 0 3px var(--primary-glow);
-}
-
-/* =====================================================
-   LOGIN VIEW
-   ===================================================== */
+/* 1. Fondo de la vista completa (para el efecto borroso) */
 #login-view {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  padding: 40px 20px;
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    /* Configuración por defecto si no cargan las fotos */
+    background-color: #f4f1ea; /* Un beige muy suave */
+    
+    /* Configuración para la imagen de fondo (se rellenará desde JS) */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Efecto de difuminado (Blur) del fondo */
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
+/* 2. El Cuadro de Login (login-card) -> IDÉNTICO AL RENDER */
 .login-card {
-  width: 100%;
-  max-width: 420px;
-  padding: 48px;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--card-shadow-lg);
-  animation: slideUp 0.5s ease;
+    /* Color de fondo semi-transparente (Glassmorphism) */
+    background: rgba(255, 255, 255, 0.85); 
+    backdrop-filter: blur(15px); /* Desenfoque extra dentro del cuadro */
+    -webkit-backdrop-filter: blur(15px);
+    
+    /* Diseño y bordes */
+    padding: 40px;
+    border-radius: 20px; /* Bordes muy redondeados como el render */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05); /* Sombra suave */
+    
+    /* Tamaño y centrado */
+    width: 100%;
+    max-width: 420px;
+    text-align: center;
 }
 
+/* 3. Título del Login (Logo SAV) -> IDÉNTICO AL RENDER */
 .login-logo {
-  text-align: center;
-  margin-bottom: 32px;
-  flex-direction: column;
-  display: flex;
-  align-items: center;
-  gap: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; /* Separación entre ALVIC y SAV */
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333; /* Color por defecto */
 }
 
+/* 'ALVIC' en dorado suave */
 .login-logo-title {
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+    color: #c9a473; /* El color dorado/arena exacto del render */
 }
 
+/* 'SAV PORTAL' en gris charcoal */
 .login-logo-sub {
-  font-size: 0.82rem;
-  color: var(--text-muted);
+    color: #444; 
+    font-weight: 400; /* Más fino */
+    font-size: 1.6rem;
 }
 
-/* =====================================================
-   KPI GRID
-   ===================================================== */
-.kpi-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+/* 4. Inputs del formulario (idénticos al render) */
+.input-group label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 6px;
+    display: block;
+    text-align: left;
 }
 
-.kpi-card {
-  padding: 24px;
-  border-radius: var(--radius-lg);
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  box-shadow: var(--card-shadow);
-  transition: var(--transition);
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px; /* Bordes redondeados */
+    border: 1px solid #ddd;
+    background-color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 18px;
 }
 
-.kpi-card span {
-  display: block;
-  font-size: 0.68rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 4px;
+/* 5. El Botón 'Entrar' -> IDÉNTICO AL RENDER */
+.btn-primary {
+    background-color: #c9a473; /* Dorado suave exacto */
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 14px;
+    border: none;
+    border-radius: 12px; /* Bordes redondeados */
+    cursor: pointer;
+    width: 100%;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
-.kpi-card h1 {
-  font-size: 2.6rem;
-  font-weight: 800;
-  color: var(--text-headline);
-  line-height: 1;
+/* Efecto al pasar el ratón (un dorado un poco más oscuro) */
+.btn-primary:hover {
+    background-color: #b89764; 
+    box-shadow: 0 5px 15px rgba(201, 164, 115, 0.3);
 }
 
-.kpi-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--card-shadow-lg);
-}
-
-/* =====================================================
-   TABLES
-   ===================================================== */
-.table-container {
-  overflow: hidden;
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-lg);
-}
-
-.table-header {
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--card-border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: rgba(237, 234, 228, 0.4);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead th {
-  padding: 12px 20px;
-  text-align: left;
-  font-size: 0.65rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  border-bottom: 1px solid var(--card-border);
-}
-
-tbody td {
-  padding: 14px 20px;
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  border-bottom: 1px solid rgba(210, 200, 188, 0.3);
-}
-
-/* Status Badges */
-.status-badge {
-  display: inline-flex;
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.status-received {
-  background: var(--primary-light);
-  color: var(--primary);
-}
-
-.status-inprogress {
-  background: var(--warning-light);
-  color: var(--warning);
-}
-
-.status-closed {
-  background: var(--success-light);
-  color: var(--success);
-}
-
-/* =====================================================
-   MAIN AREAS
-   ===================================================== */
-main {
-  padding: 32px 0;
-}
-
-.view-header {
-  margin-bottom: 30px;
-}
-
-.view-header h2 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--text-headline);
-}
-
-/* =====================================================
-   ANIMATIONS
-   ===================================================== */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  animation: slideUp 0.4s ease;
-}
-
-.view {
-  animation: slideUp 0.35s ease;
-  width: 100%;
-}
-
-.hidden {
-  display: none !important;
-}
-
-/* =====================================================
-   ADMIN DASHBOARD & ANALYTICS
-   ===================================================== */
-.nav-btn {
-  background: var(--bg-inset);
-  color: var(--text-secondary);
-  border: 1px solid var(--card-border);
-  padding: 8px 16px;
-  border-radius: 100px;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.nav-btn:hover {
-  background: var(--bg-hover);
-}
-
-.active-tab {
-  background: var(--primary) !important;
-  color: white !important;
-  border-color: var(--primary) !important;
-}
-
-.kpi-card-mini {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  min-height: 100px;
-}
-
-.kpi-card-mini .label {
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-weight: 700;
-}
-
-.kpi-card-mini .value {
-  font-size: 1.6rem;
-  font-weight: 800;
-  color: var(--text-headline);
-}
-
-.analytics-grid {
-  margin-top: 24px;
-}
-
-.analytics-filters select {
-  padding: 10px;
-  font-size: 0.85rem;
-}
-
-/* =====================================================
-   RESPONSIVE
-   ===================================================== */
-@media (max-width: 768px) {
-  .container,
-  header {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
-
-  .kpi-grid, 
-  .analytics-grid {
-    grid-template-columns: 1fr !important;
-  }
-
-  main {
-    padding: 20px 0;
-  }
-
-  .login-card {
-    padding: 30px 20px;
-  }
-}
-
-/* =====================================================
-   TOAST NOTIFICATIONS
-   ===================================================== */
-.toast-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.toast {
-  background: var(--card-bg);
-  color: var(--text-body);
-  padding: 16px 24px;
-  border-radius: var(--radius);
-  box-shadow: var(--card-shadow-lg);
-  border-left: 4px solid var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 500;
-  font-size: 0.95rem;
-  animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  opacity: 0;
-  transform: translateX(100%);
-}
-
-.toast.success {
-  border-left-color: var(--success);
-}
-
-.toast.success::before {
-  content: '✓';
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: var(--success-light);
-  color: var(--success);
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.toast.error {
-  border-left-color: var(--error);
-}
-
-.toast.error::before {
-  content: '!';
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  background: rgba(220, 53, 69, 0.1);
-  color: var(--error);
-  border-radius: 50%;
-  font-weight: bold;
-  font-size: 0.9rem;
-}
-
-.toast.fade-out {
-  animation: fadeOutRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-}
-
-@keyframes slideInRight {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes fadeOutRight {
-  to {
-    opacity: 0;
-    transform: translateX(100%);
-  }
+/* Link de 'olvidó contraseña' */
+.forgot-pass {
+    display: block;
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #888;
+    text-decoration: none;
 }
