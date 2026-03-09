@@ -557,7 +557,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     // ENVÍO INCIDENCIA
     document.getElementById('incident-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (selectedFiles.length === 0) { alert('Adjunta al menos una foto.'); return; }
         const btn = e.target.querySelector('button[type="submit"]');
         btn.innerText = translations[state.language].sending_btn; btn.disabled = true;
         try {
@@ -623,3 +622,4 @@ function toBase64(file) {
         };
     });
 }
+
