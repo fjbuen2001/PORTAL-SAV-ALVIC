@@ -527,26 +527,25 @@ const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHzGTBy2pcuEoHR
 let selectedFiles = [];
 
 // ==========================================
-// NUEVO: SISTEMA DE SESIÓN (EL "EFECTO F5")
+// NUEVO: SISTEMA DE SESIÓN (SIN FLASHEO)
 // ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
     initViews();
     changeLanguage(state.language);
 
-    // 1. Miramos si el usuario ya estaba guardado en la memoria del navegador
     const savedUser = localStorage.getItem('sav_user');
     
     if (savedUser) {
         try {
-            // Si está guardado, lo restauramos y cargamos sus incidencias
             state.user = JSON.parse(savedUser);
-            await loadIncidents();
+            const lang = state.language;
 
-            // Lo metemos directo a su panel
+            // 1. Cambiamos de pantalla INMEDIATAMENTE para que no se vea el Login
             if (state.user.role === 'ADMIN') {
-                document.getElementById('admin-display').innerText = translations[state.language].admin_display;
+                document.getElementById('admin-display').innerText = translations[lang].admin_display;
                 switchAdminTab('list');
-                renderAdminIncidents();
+                // Ponemos un mensaje de carga temporal en la tabla
+                document.getElementById('admin-incident-list').innerHTML = `<tr><td colspan="5" style="padding: 40px; text-align: center;">Cargando datos... ⏳</td></tr>`;
                 showView('admin');
             } else {
                 const clientInfo = clientData[state.user.clientKey];
@@ -555,12 +554,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                     state.user.stores = clientInfo.stores;
                 }
                 document.getElementById('user-display').innerText = `${state.user.name} (${state.user.cliente})`;
-                updateKPIs();
-                renderIncidents();
+                // Ponemos un mensaje de carga temporal en la tabla
+                document.getElementById('incident-list-body').innerHTML = `<tr><td colspan="5" style="padding: 40px; text-align: center;">Cargando datos... ⏳</td></tr>`;
                 showView('dashboard');
             }
+
+            // 2. AHORA descargamos las incidencias tranquilamente en segundo plano
+            await loadIncidents();
+
+            // 3. Cuando terminan de descargar, actualizamos las tablas con los datos reales
+            if (state.user.role === 'ADMIN') {
+                renderAdminIncidents();
+            } else {
+                updateKPIs();
+                renderIncidents();
+            }
+
         } catch (error) {
-            // Si hay algún fallo raro, borramos la memoria y lo mandamos al login
             console.error("Error al restaurar la sesión", error);
             localStorage.removeItem('sav_user');
             showView('login');
@@ -570,6 +580,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         showView('login');
     }
 
+    // -------------------------------------------------------------
+    // A PARTIR DE AQUÍ SIGUE LO MISMO QUE YA TENÍAS (document.getElementById('login-form')...)
     // -------------------------------------------------------------
 
     document.getElementById('login-form')?.addEventListener('submit', async (e) => {
@@ -789,4 +801,5 @@ function toBase64(file) {
         reader.onerror = error => reject(error);
     });
 }
+
 
