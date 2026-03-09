@@ -422,7 +422,7 @@ function renderChart(canvasId, type, labels, data, label) {
 }
 
 // --- CONFIGURACIÓN ---
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHzGTBy2pcuEoHRkksPYRhpnivk-CgcDCcrrf0swBnTuFg_57FF3142uj_M_YdObYAXA/exec';
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrxhyh3a2NVp3GSNqWc8GjUEX-nQL8SBoN1f1EsMvh2MfUupumuPOzhE9U8pYdZ34lEw/exec';
 
 document.addEventListener('DOMContentLoaded', async () => {
     initViews();
@@ -622,4 +622,5 @@ function toBase64(file) {
         };
     });
 }
+
 
