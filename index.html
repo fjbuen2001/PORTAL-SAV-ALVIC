@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAV Portal - GRUPO ALVIC</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Login View -->
+        <div id="login-view" class="view">
+            <div class="login-card fade-in">
+                <div style="display: flex; justify-content: flex-end; margin-bottom: 24px;">
+                    <select id="language-selector-login" class="lang-select" onchange="changeLanguage(this.value)">
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="fr">🇫🇷 FR</option>
+                    </select>
+                </div>
+                <div class="login-logo">
+                    <div class="login-logo-title">ALVIC SAV</div>
+                    <div class="login-logo-sub">Portal de Gestión de Incidencias</div>
+                </div>
+                <form id="login-form">
+                    <div class="input-group">
+                        <label data-i18n="email">Email</label>
+                        <input type="email" id="login-email" required placeholder="ej: cliente@alvic.com">
+                    </div>
+                    <div class="input-group" style="margin-bottom: 24px;">
+                        <label data-i18n="password">Contraseña</label>
+                        <input type="password" id="login-pass" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; padding: 14px;"
+                        data-i18n="login_btn">Entrar al Portal</button>
+                </form>
+                <div id="login-error-container" class="hidden"
+                    style="margin-top: 16px; padding: 12px; border-radius: 8px; background: rgba(220, 53, 69, 0.1); border: 1px solid rgba(220, 53, 69, 0.2); color: #b02a37; text-align: center; font-size: 0.85rem;">
+                    <span id="login-error-text"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard View -->
+        <div id="dashboard-view" class="view hidden">
+            <header>
+                <div class="logo"><strong>ALVIC</strong> <span>SAV</span></div>
+                <div class="user-info">
+                    <select id="language-selector" class="lang-select" onchange="changeLanguage(this.value)">
+                        <option value="es">🇪🇸 ES</option>
+                        <option value="en">🇬🇧 EN</option>
+                        <option value="fr">🇫🇷 FR</option>
+                    </select>
+                    <span id="user-display"
+                        style="font-weight: 600; font-size: 0.85rem; color: var(--text-secondary);"></span>
+                    <button id="logout-btn" class="btn" data-i18n="logout"
+                        style="padding: 6px 12px;">Desconectar</button>
+                </div>
+            </header>
+            <main class="container">
+                <div class="view-header" style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 data-i18n="my_incidents">Mis Incidencias</h2>
+                    <button id="new-incident-btn" class="btn-primary" data-i18n="new_incident">+ Nueva
+                        Incidencia</button>
+                </div>
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <span data-i18n="pending">Pendientes</span>
+                        <h1 id="kpi-pending">0</h1>
+                    </div>
+                    <div class="kpi-card">
+                        <span data-i18n="closed">Cerradas</span>
+                        <h1 id="kpi-closed">0</h1>
+                    </div>
+                    <div class="kpi-card">
+                        <span data-i18n="total">Total</span>
+                        <h1 id="kpi-total">0</h1>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3 data-i18n="my_incidents">Lista de Incidencias</h3>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th data-i18n="table_id">ID</th>
+                                <th data-i18n="table_date">Fecha</th>
+                                <th data-i18n="table_store">Tienda</th>
+                                <th data-i18n="table_status">Estado</th>
+                                <th data-i18n="table_action">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="incident-list-body"></tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+        <!-- Create Incident View -->
+        <div id="create-view" class="view hidden">
+            <header>
+                <div class="logo"><strong>ALVIC</strong> <span>SAV</span></div>
+                <button class="btn" id="back-to-dash" data-i18n="back_btn">← Volver</button>
+            </header>
+            <main class="container">
+                <div class="view-header">
+                    <h2 data-i18n="create_incident_title">Nueva Incidencia</h2>
+                </div>
+                <form id="incident-form" class="glass"
+                    style="padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="input-group">
+                        <label data-i18n="store">Tienda / Centro</label>
+                        <select name="tienda" id="tienda-select" required>
+                            <option value="" disabled selected data-i18n="select_option">Seleccione tienda...</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="contact">Persona de Contacto</label>
+                        <input type="text" name="contacto" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="email_contact">Email Contacto</label>
+                        <input type="email" name="email_contacto" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="order_num">Nº Pedido (SAP)</label>
+                        <input type="text" name="num_pedido" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="batch_num">Nº Lote</label>
+                        <input type="text" name="num_lote" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="gama">Gama de producto</label>
+                        <select name="gama" id="gama-select" required>
+                            <option value="" disabled selected data-i18n="select_option">Seleccione gama...</option>
+                            <option value="CARAWAY">CARAWAY</option>
+                            <option value="CAISSON">CAISSON</option>
+                            <option value="KENTIA">KENTIA</option>
+                            <option value="LAURA">LAURA</option>
+                            <option value="PRAGMA">PRAGMA</option>
+                            <option value="Encimeras" data-i18n="gama_opt_encimeras">Encimeras</option>
+                            <option value="Puertas JIT" data-i18n="gama_opt_jit">Puertas JIT</option>
+                            <option value="Puertas JIT ATOMIA" data-i18n="gama_opt_jit_atomia">Puertas JIT ATOMIA
+                            </option>
+                            <option value="Puertas JIT PALMA" data-i18n="gama_opt_jit_palma">Puertas JIT PALMA</option>
+                            <option value="Puertas STOCK" data-i18n="gama_opt_jit_stock">Puertas STOCK</option>
+                            <option value="Otros" data-i18n="gama_opt_otros">Otros (especificar)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="ean">EAN (Código Barras)</label>
+                        <input type="text" name="ean" required>
+                    </div>
+                    <div class="input-group">
+                        <label data-i18n="incident_type">Tipo Incidencia</label>
+                        <select name="tipo_incidencia" id="incident-type-select" required>
+                            <option value="" disabled selected data-i18n="select_option">Seleccione una opción</option>
+                            <option value="Daño por transporte" data-i18n="opt_trans">Daño por transporte</option>
+                            <option value="Producto dañado (roto / rayado)" data-i18n="opt_dmg">Producto dañado (roto /
+                                rayado)</option>
+                            <option value="Defecto de fabricación" data-i18n="opt_mfg">Defecto de fabricación</option>
+                            <option value="Variación cantidad" data-i18n="opt_qty">Variación cantidad</option>
+                            <option value="Producto incorrecto / Referencia errónea" data-i18n="opt_ref">Producto
+                                incorrecto / Referencia errónea</option>
+                            <option value="Falta de complementos / herrajes" data-i18n="opt_acc">Falta de complementos /
+                                herrajes</option>
+                            <option value="Incidencia de embalaje" data-i18n="opt_pkg">Incidencia de embalaje</option>
+                            <option value="Otros" data-i18n="opt_other">Otros (especificar)</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group hidden" id="otros-tipo-group" style="grid-column: span 2;">
+                        <label data-i18n="specify_other">Especifique otro tipo de incidencia</label>
+                        <textarea name="tipo_incidencia_otros" id="tipo-incidencia-otros" rows="2"></textarea>
+                    </div>
+                    <div class="input-group hidden" id="otros-gama-group" style="grid-column: span 2;">
+                        <label data-i18n="specify_gama">Especifica la gama</label>
+                        <input type="text" name="gama_otros" id="gama-otros-input">
+                    </div>
+
+                    <div class="input-group" style="grid-column: span 2;">
+                        <label data-i18n="incident_desc">Descripción Incidencia</label>
+                        <textarea name="desc_incidencia" rows="4" required></textarea>
+                    </div>
+                    <div class="input-group" style="grid-column: span 2;">
+                        <label data-i18n="attachments">Adjuntar PDF/Fotos (Mínimo 1)</label>
+                        <input type="file" id="file-attachments" multiple required
+                            style="padding: 10px; cursor: pointer;">
+                    </div>
+                    <div style="grid-column: span 2; display: flex; gap: 12px;">
+                        <button type="submit" class="btn-primary" style="flex: 1; padding: 14px;"
+                            data-i18n="send_btn">Enviar Incidencia</button>
+                        <button type="button" class="btn" id="cancel-create" data-i18n="cancel_btn">Cancelar</button>
+                    </div>
+                </form>
+            </main>
+        </div>
+
+        <!-- Detail View -->
+        <div id="detail-view" class="view hidden">
+            <header>
+                <div class="logo"><strong>ALVIC</strong> <span>SAV</span></div>
+                <button class="btn" id="back-to-dash-from-detail" data-i18n="back_btn">← Volver</button>
+            </header>
+            <main class="container">
+                <div class="view-header">
+                    <h2 id="detail-id-title" style="color: var(--primary);">Detalle</h2>
+                </div>
+                <div class="glass" style="padding: 24px; max-width: 700px; margin: 0 auto;">
+                    <div id="detail-content">
+                        <!-- JS content -->
+                    </div>
+                    <div style="border-top: 1px solid var(--card-border); padding-top: 24px;">
+                        <h3 data-i18n="comments" style="margin-bottom: 12px; font-size: 0.95rem;">Comentarios</h3>
+                        <div id="comments-list"
+                            style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px;"></div>
+                        <div style="display: flex; gap: 10px;">
+                            <textarea id="new-comment" rows="2" style="flex: 1;" placeholder="Añadir comentario..."
+                                data-i18n-placeholder="add_comment_placeholder"></textarea>
+                            <button class="btn-primary" id="add-comment-btn" data-i18n="send_comment_btn"
+                                style="align-self: flex-end;">Enviar</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Admin View -->
+        <div id="admin-view" class="view hidden">
+            <header>
+                <div class="logo"><strong>ALVIC</strong> <span
+                        style="font-size: 0.7rem; color: var(--primary); letter-spacing: 0.1em;">ADMIN</span></div>
+                <div class="user-info">
+                    <span id="admin-display" style="font-weight: 700; font-size: 0.85rem;"></span>
+                    <button id="logout-btn-admin" class="btn" data-i18n="logout">Cerrar Sesión</button>
+                </div>
+            </header>
+            <main class="container">
+                <div class="view-header" style="flex-direction: column; align-items: flex-start; gap: 15px;">
+                    <h1 data-i18n="admin_panel">Panel de Administración</h1>
+                    <div class="admin-tabs" style="display: flex; gap: 10px;">
+                        <button class="nav-btn active-tab" id="tab-btn-list" onclick="switchAdminTab('list')"
+                            data-i18n="tab_incidents">Incidencias</button>
+                        <button class="nav-btn" id="tab-btn-analytics" onclick="switchAdminTab('analytics')"
+                            data-i18n="tab_analytics">Analíticas</button>
+                    </div>
+                </div>
+
+                <!-- Admin List Content -->
+                <div id="admin-list-content">
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h3 data-i18n="total">Total de Incidencias</h3>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th data-i18n="table_id">ID</th>
+                                    <th data-i18n="table_date">Fecha</th>
+                                    <th data-i18n="table_client">Cliente</th>
+                                    <th data-i18n="table_status">Estado</th>
+                                    <th data-i18n="table_action">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-incident-list"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Admin Analytics Content -->
+                <div id="admin-analytics-content" class="hidden">
+                    <div class="analytics-filters glass"
+                        style="margin-bottom: 24px; padding: 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label data-i18n="filter_client"
+                                style="font-size: 0.8rem; margin-bottom: 5px; display: block;">Cliente</label>
+                            <select id="filter-client">
+                                <option value="all" data-i18n="all_clients">Todos los clientes</option>
+                            </select>
+                        </div>
+                        <div class="input-group" style="margin-bottom: 0;">
+                            <label data-i18n="filter_type"
+                                style="font-size: 0.8rem; margin-bottom: 5px; display: block;">Tipo Incidencia</label>
+                            <select id="filter-type">
+                                <option value="all" data-i18n="all_types">Todos los tipos</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="metric-cards"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 24px;">
+                        <div class="glass kpi-card-mini" style="padding: 20px; text-align: center;">
+                            <span class="label" data-i18n="total_incidents"
+                                style="display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Total
+                                Incidencias</span>
+                            <span class="value" id="ana-total-incidents"
+                                style="font-size: 1.8rem; font-weight: 700; color: var(--primary);">0</span>
+                        </div>
+                        <div class="glass kpi-card-mini" style="padding: 20px; text-align: center;">
+                            <span class="label" data-i18n="most_reported_client"
+                                style="display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Cliente
+                                Crítico</span>
+                            <span class="value" id="ana-critical-client"
+                                style="font-size: 1.3rem; font-weight: 700; color: var(--secondary);">-</span>
+                        </div>
+                        <div class="glass kpi-card-mini" style="padding: 20px; text-align: center;">
+                            <span class="label" data-i18n="most_reported_store"
+                                style="display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase;">Tienda
+                                Crítica</span>
+                            <span class="value" id="ana-critical-store"
+                                style="font-size: 1.3rem; font-weight: 700; color: var(--secondary);">-</span>
+                        </div>
+                    </div>
+
+                    <div class="analytics-grid"
+                        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 24px;">
+                        <div class="glass" style="padding: 24px;">
+                            <h3 data-i18n="chart_client_volume"
+                                style="margin-bottom: 20px; font-size: 0.95rem; font-weight: 700;">Distribución por
+                                Cliente</h3>
+                            <div style="height: 250px; position: relative;">
+                                <canvas id="chart-clients"></canvas>
+                            </div>
+                        </div>
+                        <div class="glass" style="padding: 24px;">
+                            <h3 data-i18n="chart_top_stores_full"
+                                style="margin-bottom: 20px; font-size: 0.95rem; font-weight: 700;">Top 10 Tiendas
+                                (Global)</h3>
+                            <div style="height: 250px; position: relative;">
+                                <canvas id="chart-stores-full"></canvas>
+                            </div>
+                        </div>
+                        <div class="glass" style="padding: 24px;">
+                            <h3 data-i18n="chart_types_breakdown"
+                                style="margin-bottom: 20px; font-size: 0.95rem; font-weight: 700;">Motivos de Incidencia
+                            </h3>
+                            <div style="height: 250px; position: relative;">
+                                <canvas id="chart-types-full"></canvas>
+                            </div>
+                        </div>
+                        <div class="glass" style="padding: 24px;">
+                            <h3 data-i18n="chart_products_breakdown"
+                                style="margin-bottom: 20px; font-size: 0.95rem; font-weight: 700;">Gamas más Afectadas
+                            </h3>
+                            <div style="height: 250px; position: relative;">
+                                <canvas id="chart-products-full"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
