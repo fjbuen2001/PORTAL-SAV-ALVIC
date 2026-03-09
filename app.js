@@ -522,7 +522,7 @@ function renderChart(canvasId, type, labels, data, label) {
 
 // --- CONFIGURACIÓN ---
 // ¡¡¡ RECUERDA PEGAR AQUÍ TU ENLACE DE APPS SCRIPT !!!
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQ-tBnob9xfUvqJ6Y7zUp_QnxJXLBN6ICafI6PeHx7d4SMqcosjPrXlZ18CScdH2T_QA/exec';
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHzGTBy2pcuEoHRkksPYRhpnivk-CgcDCcrrf0swBnTuFg_57FF3142uj_M_YdObYAXA/exec';
 
 let selectedFiles = [];
 
@@ -744,3 +744,4 @@ function toBase64(file) {
         reader.onerror = error => reject(error);
     });
 }
+
