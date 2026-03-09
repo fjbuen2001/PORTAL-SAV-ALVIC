@@ -1,5 +1,5 @@
 /**
- * SAV Alvic Portal - Frontend Logic v5 (Auto-Login Session)
+ * SAV Alvic Portal - Frontend Logic v6 (Miniaturas y Compresión)
  */
 
 const state = {
@@ -521,14 +521,10 @@ function renderChart(canvasId, type, labels, data, label) {
 }
 
 // --- CONFIGURACIÓN ---
-// ¡¡¡ RECUERDA PEGAR AQUÍ TU ENLACE DE APPS SCRIPT !!!
 const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHzGTBy2pcuEoHRkksPYRhpnivk-CgcDCcrrf0swBnTuFg_57FF3142uj_M_YdObYAXA/exec';
 
 let selectedFiles = [];
 
-// ==========================================
-// NUEVO: SISTEMA DE SESIÓN (SIN FLASHEO)
-// ==========================================
 document.addEventListener('DOMContentLoaded', async () => {
     initViews();
     changeLanguage(state.language);
@@ -544,7 +540,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (state.user.role === 'ADMIN') {
                 document.getElementById('admin-display').innerText = translations[lang].admin_display;
                 switchAdminTab('list');
-                // Ponemos un mensaje de carga temporal en la tabla
                 document.getElementById('admin-incident-list').innerHTML = `<tr><td colspan="5" style="padding: 40px; text-align: center;">Cargando datos... ⏳</td></tr>`;
                 showView('admin');
             } else {
@@ -554,7 +549,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     state.user.stores = clientInfo.stores;
                 }
                 document.getElementById('user-display').innerText = `${state.user.name} (${state.user.cliente})`;
-                // Ponemos un mensaje de carga temporal en la tabla
                 document.getElementById('incident-list-body').innerHTML = `<tr><td colspan="5" style="padding: 40px; text-align: center;">Cargando datos... ⏳</td></tr>`;
                 showView('dashboard');
             }
@@ -579,10 +573,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Si no hay nadie guardado, mostramos el login normal
         showView('login');
     }
-
-    // -------------------------------------------------------------
-    // A PARTIR DE AQUÍ SIGUE LO MISMO QUE YA TENÍAS (document.getElementById('login-form')...)
-    // -------------------------------------------------------------
 
     document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -613,7 +603,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 errorContainer.classList.add('hidden');
                 state.user = result.user;
 
-                // NUEVO: Guardamos el billete de entrada en el navegador
+                // Guardamos el billete de entrada en el navegador
                 localStorage.setItem('sav_user', JSON.stringify(state.user));
 
                 await loadIncidents();
@@ -651,7 +641,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     [document.getElementById('logout-btn'), document.getElementById('logout-btn-admin')].forEach(btn =>
         btn?.addEventListener('click', () => {
             state.user = null;
-            // NUEVO: Al darle a Cerrar Sesión, rompemos el billete de entrada
             localStorage.removeItem('sav_user');
             Object.values(charts).forEach(c => c?.destroy());
             charts = {};
@@ -679,11 +668,65 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('gama-otros-input').required = (e.target.value === 'Otros');
     });
 
+    // ==========================================
+    // NUEVO: SISTEMA DE MINIATURAS DE FOTOS
+    // ==========================================
+    const fileInput = document.getElementById('file-attachments');
+    const previewContainer = document.createElement('div');
+    previewContainer.style.cssText = 'display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;';
+    
+    // Solo inyectamos si existe el fileInput en el HTML
+    if (fileInput) fileInput.parentNode.insertBefore(previewContainer, fileInput.nextSibling);
+
+    fileInput?.addEventListener('change', (e) => {
+        Array.from(e.target.files).forEach(file => {
+            // Evitamos que suban la misma foto dos veces
+            if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                selectedFiles.push(file);
+            }
+        });
+        renderPreviews();
+        fileInput.value = ''; // Reseteamos el input
+    });
+
+    window.removeFile = (index) => {
+        selectedFiles.splice(index, 1);
+        renderPreviews();
+    };
+
+    function renderPreviews() {
+        previewContainer.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const isImage = file.type.startsWith('image/');
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const src = isImage ? e.target.result : 'https://upload.wikimedia.org/wikipedia/commons/8/87/PDF_file_icon.svg';
+                const div = document.createElement('div');
+                div.style.cssText = 'position: relative; width: 75px; height: 75px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border: 1px solid #ddd; background: #fff; animation: fadeIn 0.3s ease-in-out;';
+                div.innerHTML = `
+                    <img src="${src}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 8px; ${!isImage ? 'padding:10px;' : ''}">
+                    <button type="button" onclick="removeFile(${index})" style="position: absolute; top: -6px; right: -6px; background: #dc2626; color: white; border: none; border-radius: 50%; width: 22px; height: 22px; font-size: 14px; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2); display: flex; align-items: center; justify-content: center; padding: 0;">&times;</button>
+                `;
+                previewContainer.appendChild(div);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // ==========================================
+    // ENVÍO DE INCIDENCIA MEJORADO
+    // ==========================================
     document.getElementById('incident-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = e.target.querySelector('button[type="submit"]');
         const lang = state.language;
         const oldText = btn.innerText;
+
+        // Validar que hay fotos
+        if (selectedFiles.length === 0) {
+            alert(lang === 'es' ? 'Por favor, adjunta al menos una foto o PDF.' : (lang === 'en' ? 'Please attach at least one photo or PDF.' : 'Veuillez joindre au moins une photo ou un PDF.'));
+            return;
+        }
 
         btn.innerText = translations[lang].sending_btn;
         btn.disabled = true;
@@ -695,12 +738,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (vals.tipo_incidencia === 'Otros') vals.tipo_incidencia = `Otros: ${vals.tipo_incidencia_otros}`;
             if (vals.gama === 'Otros') vals.gama = `Otros: ${vals.gama_otros}`;
 
-            const fileInput = document.getElementById('file-attachments');
-            const files = fileInput.files;
             const filesBase64 = [];
 
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
+            // Comprimimos las fotos de nuestra galería
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
                 const base64 = await toBase64(file);
                 const base64Data = base64.split(',')[1];
                 filesBase64.push({ name: file.name, type: file.type, base64: base64Data });
@@ -726,10 +768,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                     cliente: state.user.cliente,
                     ...vals
                 });
+                
+                // Limpiamos todo
+                selectedFiles = [];
+                renderPreviews();
+                e.target.reset();
+                
                 updateKPIs();
                 renderIncidents();
                 showView('dashboard');
-                e.target.reset();
             } else {
                 alert(translations[lang].send_error + result.message);
             }
@@ -794,11 +841,10 @@ function showToast(message, type = 'success') {
 }
 
 // ==========================================
-// NUEVO: COMPRESIÓN EXTREMA DE IMÁGENES
+// COMPRESIÓN EXTREMA DE IMÁGENES
 // ==========================================
 function toBase64(file) {
     return new Promise((resolve, reject) => {
-        // Si NO es una imagen (por ejemplo, es un PDF), lo leemos normal y rápido
         if (!file.type.startsWith('image/')) {
             const reader = new FileReader();
             reader.readAsDataURL(file);
@@ -807,7 +853,6 @@ function toBase64(file) {
             return;
         }
 
-        // Si SÍ es una imagen, hacemos la compresión mágica
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onload = (event) => {
@@ -816,13 +861,11 @@ function toBase64(file) {
             img.onload = () => {
                 const canvas = document.createElement('canvas');
                 
-                // Tamaño máximo profesional (1200px es calidad HD pero sin pesar una barbaridad)
                 const MAX_WIDTH = 1200; 
                 const MAX_HEIGHT = 1200;
                 let width = img.width;
                 let height = img.height;
 
-                // Calculamos la proporción correcta
                 if (width > height) {
                     if (width > MAX_WIDTH) {
                         height *= MAX_WIDTH / width;
@@ -840,7 +883,6 @@ function toBase64(file) {
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
 
-                // Comprimimos a JPEG con 70% de calidad (Reduce de 5MB a ~300KB)
                 const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
                 resolve(compressedBase64);
             };
@@ -849,6 +891,3 @@ function toBase64(file) {
         reader.onerror = error => reject(error);
     });
 }
-
-
-
