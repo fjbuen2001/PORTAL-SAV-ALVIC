@@ -1,5 +1,5 @@
 /**
- * SAV Alvic Portal - Frontend Logic v4 (Secure Login + Background Jobs)
+ * SAV Alvic Portal - Frontend Logic v5 (Auto-Login Session)
  */
 
 const state = {
@@ -522,15 +522,56 @@ function renderChart(canvasId, type, labels, data, label) {
 
 // --- CONFIGURACIÓN ---
 // ¡¡¡ RECUERDA PEGAR AQUÍ TU ENLACE DE APPS SCRIPT !!!
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHzGTBy2pcuEoHRkksPYRhpnivk-CgcDCcrrf0swBnTuFg_57FF3142uj_M_YdObYAXA/exec';
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQ-tBnob9xfUvqJ6Y7zUp_QnxJXLBN6ICafI6PeHx7d4SMqcosjPrXlZ18CScdH2T_QA/exec';
 
 let selectedFiles = [];
 
-document.addEventListener('DOMContentLoaded', () => {
+// ==========================================
+// NUEVO: SISTEMA DE SESIÓN (EL "EFECTO F5")
+// ==========================================
+document.addEventListener('DOMContentLoaded', async () => {
     initViews();
     changeLanguage(state.language);
 
-    // NUEVO LOGIN SEGURO
+    // 1. Miramos si el usuario ya estaba guardado en la memoria del navegador
+    const savedUser = localStorage.getItem('sav_user');
+    
+    if (savedUser) {
+        try {
+            // Si está guardado, lo restauramos y cargamos sus incidencias
+            state.user = JSON.parse(savedUser);
+            await loadIncidents();
+
+            // Lo metemos directo a su panel
+            if (state.user.role === 'ADMIN') {
+                document.getElementById('admin-display').innerText = translations[state.language].admin_display;
+                switchAdminTab('list');
+                renderAdminIncidents();
+                showView('admin');
+            } else {
+                const clientInfo = clientData[state.user.clientKey];
+                if (clientInfo) {
+                    state.user.cliente = clientInfo.name;
+                    state.user.stores = clientInfo.stores;
+                }
+                document.getElementById('user-display').innerText = `${state.user.name} (${state.user.cliente})`;
+                updateKPIs();
+                renderIncidents();
+                showView('dashboard');
+            }
+        } catch (error) {
+            // Si hay algún fallo raro, borramos la memoria y lo mandamos al login
+            console.error("Error al restaurar la sesión", error);
+            localStorage.removeItem('sav_user');
+            showView('login');
+        }
+    } else {
+        // Si no hay nadie guardado, mostramos el login normal
+        showView('login');
+    }
+
+    // -------------------------------------------------------------
+
     document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         
@@ -559,6 +600,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.status === 'success') {
                 errorContainer.classList.add('hidden');
                 state.user = result.user;
+
+                // NUEVO: Guardamos el billete de entrada en el navegador
+                localStorage.setItem('sav_user', JSON.stringify(state.user));
 
                 await loadIncidents();
 
@@ -595,6 +639,8 @@ document.addEventListener('DOMContentLoaded', () => {
     [document.getElementById('logout-btn'), document.getElementById('logout-btn-admin')].forEach(btn =>
         btn?.addEventListener('click', () => {
             state.user = null;
+            // NUEVO: Al darle a Cerrar Sesión, rompemos el billete de entrada
+            localStorage.removeItem('sav_user');
             Object.values(charts).forEach(c => c?.destroy());
             charts = {};
             changeLanguage(state.language);
@@ -621,7 +667,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('gama-otros-input').required = (e.target.value === 'Otros');
     });
 
-    // NUEVO CREAR INCIDENCIA (RÁPIDO)
     document.getElementById('incident-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = e.target.querySelector('button[type="submit"]');
@@ -744,4 +789,3 @@ function toBase64(file) {
         reader.onerror = error => reject(error);
     });
 }
-
