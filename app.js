@@ -793,13 +793,62 @@ function showToast(message, type = 'success') {
     }, 5000);
 }
 
+// ==========================================
+// NUEVO: COMPRESIÓN EXTREMA DE IMÁGENES
+// ==========================================
 function toBase64(file) {
     return new Promise((resolve, reject) => {
+        // Si NO es una imagen (por ejemplo, es un PDF), lo leemos normal y rápido
+        if (!file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+            return;
+        }
+
+        // Si SÍ es una imagen, hacemos la compresión mágica
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                
+                // Tamaño máximo profesional (1200px es calidad HD pero sin pesar una barbaridad)
+                const MAX_WIDTH = 1200; 
+                const MAX_HEIGHT = 1200;
+                let width = img.width;
+                let height = img.height;
+
+                // Calculamos la proporción correcta
+                if (width > height) {
+                    if (width > MAX_WIDTH) {
+                        height *= MAX_WIDTH / width;
+                        width = MAX_WIDTH;
+                    }
+                } else {
+                    if (height > MAX_HEIGHT) {
+                        width *= MAX_HEIGHT / height;
+                        height = MAX_HEIGHT;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Comprimimos a JPEG con 70% de calidad (Reduce de 5MB a ~300KB)
+                const compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+                resolve(compressedBase64);
+            };
+            img.onerror = error => reject(error);
+        };
         reader.onerror = error => reject(error);
     });
 }
+
 
 
