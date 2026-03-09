@@ -1,5 +1,5 @@
 /**
- * SAV Alvic Portal - Frontend Logic v3 (Clean) + PDF & Email Integration
+ * SAV Alvic Portal - Frontend Logic v4 (Secure Login + Background Jobs)
  */
 
 const state = {
@@ -8,15 +8,6 @@ const state = {
     incidents: [],
     loading: false,
     language: localStorage.getItem('sav_lang') || 'es'
-};
-
-const userDatabase = {
-    'admin@alvic.com': { pass: 'alvic2026', role: 'ADMIN', name: 'Admin', cliente: 'Alvic' },
-    'cliente@bricodepot.com': { pass: 'bricoSAV', role: 'CLIENTE', name: 'Brico Depot', clientKey: 'bricodepot' },
-    'cliente@intermarche.com': { pass: 'interSAV', role: 'CLIENTE', name: 'INTERMARCHÉ', clientKey: 'intermarche' },
-    'cliente@castorama.com': { pass: 'castoSAV', role: 'CLIENTE', name: 'CASTORAMA', clientKey: 'castorama' },
-    'cliente@edb.com': { pass: 'edbSAV', role: 'CLIENTE', name: 'EDB', clientKey: 'edb' },
-    'mtziora@grupoalvic.com': { pass: 'malena', role: 'CLIENTE', name: 'Malena', clientKey: 'grupoalvic' }
 };
 
 const clientData = {
@@ -49,10 +40,10 @@ const clientData = {
             "SALAISE SUR SANNE", "VALS-PRES-LE-PUY", "VIRY CHATILLON"
         ]
     },
-    'grupoalvic': {
+    'grupoalvic': { 
         name: 'Malena',
         stores: [
-            "ALCAUDETE", "LA CAROLINA", "VIC", "MADRID", "BARCELONA", "VALENCIA", "MÁLAGA", "SEVILLA"
+            "ALCAUDETE", "LA CAROLINA", "VIC", "MADRID", "BARCELONA", "VALENCIA", "MÁLAGA", "SEVILLA" 
         ]
     },
     'castorama': {
@@ -530,7 +521,8 @@ function renderChart(canvasId, type, labels, data, label) {
 }
 
 // --- CONFIGURACIÓN ---
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzHzGTBy2pcuEoHRkksPYRhpnivk-CgcDCcrrf0swBnTuFg_57FF3142uj_M_YdObYAXA/exec';
+// ¡¡¡ RECUERDA PEGAR AQUÍ TU ENLACE DE APPS SCRIPT !!!
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyQ-tBnob9xfUvqJ6Y7zUp_QnxJXLBN6ICafI6PeHx7d4SMqcosjPrXlZ18CScdH2T_QA/exec';
 
 let selectedFiles = [];
 
@@ -538,42 +530,65 @@ document.addEventListener('DOMContentLoaded', () => {
     initViews();
     changeLanguage(state.language);
 
+    // NUEVO LOGIN SEGURO
     document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
         const email = document.getElementById('login-email').value.toLowerCase();
         const pass = document.getElementById('login-pass').value;
         const lang = state.language;
         const errorContainer = document.getElementById('login-error-container');
         const errorText = document.getElementById('login-error-text');
+        
+        const btn = e.target.querySelector('button[type="submit"]');
+        const oldText = btn.innerText;
+        btn.innerText = (lang === 'es') ? 'Verificando...' : (lang === 'en' ? 'Verifying...' : 'Vérification...');
+        btn.disabled = true;
 
-        const user = userDatabase[email];
-        if (!user || user.pass !== pass) {
-            errorText.innerText = translations[lang].login_error_invalid;
-            errorContainer.classList.remove('hidden');
-            return;
-        }
+        try {
+            const payload = { action: 'login', payload: { email: email, password: pass } };
+            
+            const response = await fetch(APP_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { "Content-Type": "text/plain;charset=utf-8" }
+            });
 
-        errorContainer.classList.add('hidden');
-        state.user = { email, ...user };
+            const result = await response.json();
 
-        await loadIncidents();
+            if (result.status === 'success') {
+                errorContainer.classList.add('hidden');
+                state.user = result.user;
 
-        if (state.user.role === 'ADMIN') {
-            document.getElementById('admin-display').innerText = translations[lang].admin_display;
-            switchAdminTab('list');
-            renderAdminIncidents();
-            showView('admin');
-        } else {
-            const clientInfo = clientData[state.user.clientKey];
-            if (clientInfo) {
-                state.user.cliente = clientInfo.name;
-                state.user.stores = clientInfo.stores;
+                await loadIncidents();
+
+                if (state.user.role === 'ADMIN') {
+                    document.getElementById('admin-display').innerText = translations[lang].admin_display;
+                    switchAdminTab('list');
+                    renderAdminIncidents();
+                    showView('admin');
+                } else {
+                    const clientInfo = clientData[state.user.clientKey];
+                    if (clientInfo) {
+                        state.user.cliente = clientInfo.name;
+                        state.user.stores = clientInfo.stores;
+                    }
+                    document.getElementById('user-display').innerText = `${state.user.name} (${state.user.cliente})`;
+                    updateKPIs();
+                    renderIncidents();
+                    changeLanguage(state.language);
+                    showView('dashboard');
+                }
+            } else {
+                errorText.innerText = translations[lang].login_error_invalid;
+                errorContainer.classList.remove('hidden');
             }
-            document.getElementById('user-display').innerText = `${state.user.name} (${state.user.cliente})`;
-            updateKPIs();
-            renderIncidents();
-            changeLanguage(state.language);
-            showView('dashboard');
+        } catch (error) {
+            errorText.innerText = "Error de conexión con el servidor de validación.";
+            errorContainer.classList.remove('hidden');
+        } finally {
+            btn.innerText = oldText;
+            btn.disabled = false;
         }
     });
 
@@ -606,9 +621,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('gama-otros-input').required = (e.target.value === 'Otros');
     });
 
-    // ----------------------------------------------------------------------------------
-    // NUEVA LÓGICA DE ENVÍO DE FORMULARIO (CON BASE64 PARA ADJUNTOS)
-    // ----------------------------------------------------------------------------------
+    // NUEVO CREAR INCIDENCIA (RÁPIDO)
     document.getElementById('incident-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
         const btn = e.target.querySelector('button[type="submit"]');
@@ -625,7 +638,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (vals.tipo_incidencia === 'Otros') vals.tipo_incidencia = `Otros: ${vals.tipo_incidencia_otros}`;
             if (vals.gama === 'Otros') vals.gama = `Otros: ${vals.gama_otros}`;
 
-            // Procesar archivos a Base64
             const fileInput = document.getElementById('file-attachments');
             const files = fileInput.files;
             const filesBase64 = [];
@@ -637,10 +649,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 filesBase64.push({ name: file.name, type: file.type, base64: base64Data });
             }
 
-            // AQUI ESTÁ EL CAMBIO IMPORTANTE: SE AÑADE usuario_email: state.user.email
             const payload = { action: 'createIncident', payload: { ...vals, cliente: state.user.cliente, usuario_email: state.user.email, lang: lang, files: filesBase64 } };
 
-            // Usamos POST estándar sin no-cors para poder leer el JSON de respuesta
             const response = await fetch(APP_SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify(payload),
@@ -652,7 +662,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (result.status === 'success') {
                 showToast(translations[lang].success_msg, 'success');
 
-                // Actualizar estado local
                 state.incidents.unshift({
                     id: result.id || `ALVIC-${Date.now()}`,
                     fecha: new Date().toLocaleDateString(),
@@ -727,7 +736,6 @@ function showToast(message, type = 'success') {
     }, 5000);
 }
 
-// Helper para Base64
 function toBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
