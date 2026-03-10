@@ -183,3 +183,61 @@ tbody tr:hover td {
 .status-closed { background: #e8f5e9; color: #388e3c; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ==========================================
+   RETOQUE FINAL BOTONES TABLA (DASHBOARD)
+   ========================================== */
+
+/* Botón VER - Estilo Minimalista Dorado */
+.btn-ver {
+    background-color: #fdfaf5 !important; /* Crema muy suave */
+    color: #c9a473 !important;           /* Dorado Alvic */
+    border: 1px solid #e2decb !important;
+    padding: 6px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.btn-ver:hover {
+    background-color: #c9a473 !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(201, 164, 115, 0.2);
+}
+
+/* Botón ELIMINAR - Estilo Elegante Soft Red */
+.btn-eliminar {
+    background-color: #fff5f5 !important;
+    color: #e57373 !important;           /* Rojo suave para que no sea agresivo */
+    border: 1px solid #ffdbdb !important;
+    padding: 6px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 0.85rem !important;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-left: 5px;
+}
+
+.btn-eliminar:hover {
+    background-color: #e57373 !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(229, 115, 115, 0.2);
+}
+
+/* Ajuste del buscador para que sea Premium */
+#search-input {
+    border-radius: 12px !important;
+    border: 1px solid #e2decb !important;
+    padding: 12px 20px !important;
+    font-size: 0.9rem !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+    margin-bottom: 15px;
+    width: 100%;
+}
