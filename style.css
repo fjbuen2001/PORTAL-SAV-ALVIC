@@ -69,7 +69,7 @@ body {
 .login-logo-sub { color: var(--secondary); font-size: 1.8rem; font-weight: 300; display: inline-block; margin-left: 5px; }
 
 /* ==========================================
-   DASHBOARD INTERIOR (MEJORADO)
+   DASHBOARD INTERIOR (ESTILO PREMIUM)
    ========================================== */
 header {
     background: white; 
@@ -92,25 +92,27 @@ header {
     padding: 30px; 
     border-radius: 20px; 
     text-align: center; 
-    box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+    box-shadow: 0 10px 25px rgba(184, 151, 100, 0.1); 
     border-top: 5px solid var(--primary); 
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
-.kpi-card:hover { 
-    transform: translateY(-5px); 
-    box-shadow: 0 15px 35px rgba(0,0,0,0.08); 
-}
-
-.kpi-card h3 {
-    color: #888;
-    text-transform: uppercase;
-    font-size: 0.8rem;
-    letter-spacing: 1.5px;
-    margin-bottom: 10px;
-}
-
+.kpi-card:hover { transform: translateY(-5px); }
+.kpi-card h3 { color: #888; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1.5px; margin-bottom: 10px; }
 .kpi-card h1 { font-size: 3rem; color: var(--secondary); font-weight: 800; }
+
+/* Buscador Estilizado */
+#search-input {
+    border-radius: 12px !important;
+    border: 1px solid #e2decb !important;
+    padding: 12px 20px !important;
+    font-size: 0.9rem !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+    margin-bottom: 20px;
+    width: 100%;
+    outline: none;
+}
+#search-input:focus { border-color: var(--primary); }
 
 /* Tabla Estilo Boutique */
 .table-container { 
@@ -131,7 +133,6 @@ th {
     text-transform: uppercase; 
     color: var(--primary-dark); 
     font-weight: 700;
-    letter-spacing: 1px;
 }
 
 td { 
@@ -139,35 +140,52 @@ td {
     background: white;
     border-bottom: 1px solid #f4f1ea;
     font-size: 0.95rem; 
-}
-
-tbody tr:hover td { 
-    background: #faf9f6; 
-    color: var(--primary-dark);
+    vertical-align: middle;
 }
 
 /* ==========================================
-   ELEMENTOS DE FORMULARIO Y BOTONES
+   BOTONES DE LA TABLA (REDISEÑO TOTAL)
    ========================================== */
-.input-group { margin-bottom: 20px; text-align: left; }
-.input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #555; }
-.input-group input, .input-group select, .input-group textarea {
-    width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 1rem; outline: none; transition: 0.3s;
-}
-.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.2); }
 
-.btn-primary {
-    background-color: var(--primary);
-    color: white; border: none; padding: 15px 30px; border-radius: 12px;
-    font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase;
-    letter-spacing: 1.5px; transition: 0.3s;
-    box-shadow: 0 4px 15px rgba(201, 164, 115, 0.3);
+/* Base para todos los botones de acción en la tabla */
+.btn-ver, .btn-eliminar {
+    padding: 8px 16px !important;
+    border-radius: 8px !important;
+    font-weight: 700 !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+    text-decoration: none !important;
+    margin-right: 5px !important;
 }
 
-.btn-primary:hover { 
-    background-color: var(--primary-dark); 
-    transform: translateY(-2px); 
-    box-shadow: 0 8px 20px rgba(201, 164, 115, 0.5); 
+/* Botón VER */
+.btn-ver {
+    background-color: #fdfaf5 !important;
+    color: #c9a473 !important;
+    border: 1px solid #e2decb !important;
+}
+
+.btn-ver:hover {
+    background-color: #c9a473 !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(201, 164, 115, 0.2);
+}
+
+/* Botón ELIMINAR */
+.btn-eliminar {
+    background-color: #fff5f5 !important;
+    color: #e57373 !important;
+    border: 1px solid #ffdbdb !important;
+}
+
+.btn-eliminar:hover {
+    background-color: #e57373 !important;
+    color: white !important;
+    box-shadow: 0 4px 10px rgba(229, 115, 115, 0.2);
 }
 
 /* Badges de Estado */
@@ -182,62 +200,19 @@ tbody tr:hover td {
 .status-inprogress { background: #fff3e0; color: #f57c00; }
 .status-closed { background: #e8f5e9; color: #388e3c; }
 
+/* Botón Nueva Incidencia (Grande) */
+.btn-primary {
+    background-color: var(--primary);
+    color: white; border: none; padding: 15px 30px; border-radius: 12px;
+    font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase;
+    letter-spacing: 1.5px; transition: 0.3s;
+    box-shadow: 0 4px 15px rgba(201, 164, 115, 0.3);
+    margin-bottom: 20px;
+}
+
+.btn-primary:hover { 
+    background-color: var(--primary-dark); 
+    transform: translateY(-2px); 
+}
+
 @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-/* ==========================================
-   RETOQUE FINAL BOTONES TABLA (DASHBOARD)
-   ========================================== */
-
-/* Botón VER - Estilo Minimalista Dorado */
-.btn-ver {
-    background-color: #fdfaf5 !important; /* Crema muy suave */
-    color: #c9a473 !important;           /* Dorado Alvic */
-    border: 1px solid #e2decb !important;
-    padding: 6px 16px !important;
-    border-radius: 8px !important;
-    font-weight: 600 !important;
-    font-size: 0.85rem !important;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.btn-ver:hover {
-    background-color: #c9a473 !important;
-    color: white !important;
-    box-shadow: 0 4px 10px rgba(201, 164, 115, 0.2);
-}
-
-/* Botón ELIMINAR - Estilo Elegante Soft Red */
-.btn-eliminar {
-    background-color: #fff5f5 !important;
-    color: #e57373 !important;           /* Rojo suave para que no sea agresivo */
-    border: 1px solid #ffdbdb !important;
-    padding: 6px 16px !important;
-    border-radius: 8px !important;
-    font-weight: 600 !important;
-    font-size: 0.85rem !important;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-left: 5px;
-}
-
-.btn-eliminar:hover {
-    background-color: #e57373 !important;
-    color: white !important;
-    box-shadow: 0 4px 10px rgba(229, 115, 115, 0.2);
-}
-
-/* Ajuste del buscador para que sea Premium */
-#search-input {
-    border-radius: 12px !important;
-    border: 1px solid #e2decb !important;
-    padding: 12px 20px !important;
-    font-size: 0.9rem !important;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
-    margin-bottom: 15px;
-    width: 100%;
-}
