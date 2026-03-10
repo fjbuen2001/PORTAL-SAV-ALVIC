@@ -1,6 +1,25 @@
-/* style.css (BLOQUE DE LOGIN COMPLETO) */
+/* ==========================================
+   ESTILOS GENERALES Y VARIABLES (ALVIC SAV)
+   ========================================== */
+:root {
+    --primary: #c9a473;    /* Dorado Alvic del render */
+    --primary-dark: #b89764;
+    --secondary: #444444;  /* Gris oscuro corporativo */
+    --bg-light: #f4f1ea;
+    --text-main: #333333;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+}
 
-/* 1. Fondo de la vista completa (para el efecto borroso) */
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+
+body { background-color: var(--bg-light); color: var(--text-main); line-height: 1.6; }
+
+.container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.hidden { display: none !important; }
+
+/* ==========================================
+   DISEÑO PREMIUM LOGIN (REPLICA DEL RENDER)
+   ========================================== */
 #login-view {
     position: relative;
     width: 100vw;
@@ -8,109 +27,88 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* Configuración por defecto si no cargan las fotos */
-    background-color: #f4f1ea; /* Un beige muy suave */
-    
-    /* Configuración para la imagen de fondo (se rellenará desde JS) */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    
-    /* Efecto de difuminado (Blur) del fondo */
+    overflow: hidden;
+}
+
+/* Capa de desenfoque sobre el fondo de cocina */
+#login-view::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.15); 
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    z-index: 1;
 }
 
-/* 2. El Cuadro de Login (login-card) -> IDÉNTICO AL RENDER */
 .login-card {
-    /* Color de fondo semi-transparente (Glassmorphism) */
-    background: rgba(255, 255, 255, 0.85); 
-    backdrop-filter: blur(15px); /* Desenfoque extra dentro del cuadro */
+    position: relative;
+    z-index: 2;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    
-    /* Diseño y bordes */
-    padding: 40px;
-    border-radius: 20px; /* Bordes muy redondeados como el render */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* Borde sutil */
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05); /* Sombra suave */
-    
-    /* Tamaño y centrado */
-    width: 100%;
+    padding: 45px;
+    border-radius: 25px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+    width: 90%;
     max-width: 420px;
     text-align: center;
+    animation: fadeIn 0.8s ease-out;
 }
 
-/* 3. Título del Login (Logo SAV) -> IDÉNTICO AL RENDER */
-.login-logo {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px; /* Separación entre ALVIC y SAV */
-    margin-bottom: 30px;
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: #333; /* Color por defecto */
-}
+.login-logo { margin-bottom: 30px; }
+.login-logo-title { color: var(--primary); font-size: 2.2rem; font-weight: 800; display: inline-block; }
+.login-logo-sub { color: var(--secondary); font-size: 1.8rem; font-weight: 300; display: inline-block; margin-left: 5px; }
 
-/* 'ALVIC' en dorado suave */
-.login-logo-title {
-    color: #c9a473; /* El color dorado/arena exacto del render */
+.input-group { margin-bottom: 20px; text-align: left; }
+.input-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.9rem; color: #555; }
+.input-group input, .input-group select, .input-group textarea {
+    width: 100%; padding: 12px 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 1rem; outline: none; transition: 0.3s;
 }
+.input-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.2); }
 
-/* 'SAV PORTAL' en gris charcoal */
-.login-logo-sub {
-    color: #444; 
-    font-weight: 400; /* Más fino */
-    font-size: 1.6rem;
-}
-
-/* 4. Inputs del formulario (idénticos al render) */
-.input-group label {
-    font-size: 0.9rem;
-    color: #666;
-    margin-bottom: 6px;
-    display: block;
-    text-align: left;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 12px 15px;
-    border-radius: 10px; /* Bordes redondeados */
-    border: 1px solid #ddd;
-    background-color: #fff;
-    font-size: 0.95rem;
-    margin-bottom: 18px;
-}
-
-/* 5. El Botón 'Entrar' -> IDÉNTICO AL RENDER */
+/* ==========================================
+   BOTONES Y ELEMENTOS DE ACCIÓN
+   ========================================== */
 .btn-primary {
-    background-color: #c9a473; /* Dorado suave exacto */
-    color: white;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 14px;
-    border: none;
-    border-radius: 12px; /* Bordes redondeados */
-    cursor: pointer;
-    width: 100%;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    background-color: var(--primary);
+    color: white; border: none; padding: 14px 28px; border-radius: 12px;
+    font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase;
+    letter-spacing: 1px; transition: 0.3s;
+}
+.btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(201, 164, 115, 0.4); }
+
+.btn {
+    background: white; border: 1px solid #ddd; padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: 0.2s;
+}
+.btn:hover { background: #f8f8f8; }
+
+/* ==========================================
+   DASHBOARD Y TABLAS (PARA QUE NO SE ROMPA)
+   ========================================== */
+header {
+    background: white; padding: 15px 30px; display: flex; justify-content: space-between;
+    align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); margin-bottom: 30px;
 }
 
-/* Efecto al pasar el ratón (un dorado un poco más oscuro) */
-.btn-primary:hover {
-    background-color: #b89764; 
-    box-shadow: 0 5px 15px rgba(201, 164, 115, 0.3);
-}
+.logo strong { color: var(--primary); font-size: 1.4rem; }
 
-/* Link de 'olvidó contraseña' */
-.forgot-pass {
-    display: block;
-    margin-top: 15px;
-    font-size: 0.85rem;
-    color: #888;
-    text-decoration: none;
-}
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+.kpi-card { background: white; padding: 25px; border-radius: 15px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-bottom: 4px solid var(--primary); }
+.kpi-card h1 { font-size: 2.5rem; margin-top: 10px; color: var(--secondary); }
+
+.table-container { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+table { width: 100%; border-collapse: collapse; }
+th { background: #fdfaf5; padding: 15px; text-align: left; font-size: 0.85rem; text-transform: uppercase; color: #888; border-bottom: 1px solid #eee; }
+td { padding: 15px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
+
+.status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
+.status-received { background: #e3f2fd; color: #1976d2; }
+.status-inprogress { background: #fff3e0; color: #f57c00; }
+.status-closed { background: #e8f5e9; color: #388e3c; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
