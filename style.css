@@ -80,3 +80,52 @@ td { padding: 15px; border-bottom: 1px solid #eee; }
 
 .status-badge { padding: 5px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; }
 .status-received { background: #e3f2fd; color: #1976d2; }
+/* ==========================================
+   RETOQUE PARA LAS CAJITAS DEL LOGIN
+   ========================================== */
+
+/* Ajuste general de las etiquetas (Usuario, Contraseña) */
+#login-form {
+    text-align: left;
+}
+
+#login-form label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 5px;
+    margin-top: 15px;
+}
+
+/* El diseño de las cajitas de texto y el desplegable */
+#login-form input, 
+#language-selector-login {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px; /* Bordes redondeados modernos */
+    background-color: #fcfcfc;
+    font-size: 1rem;
+    color: #333;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); /* Sombra interna sutil */
+}
+
+/* Efecto cuando haces clic dentro para escribir (Brillo dorado) */
+#login-form input:focus, 
+#language-selector-login:focus {
+    border-color: #c9a473; /* Dorado Alvic */
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.2);
+}
+
+/* Ajuste específico para el selector de idioma para que no flote feo */
+#language-selector-login {
+    width: auto;
+    padding: 8px 12px;
+    float: right;
+    margin-bottom: 20px;
+}
+
