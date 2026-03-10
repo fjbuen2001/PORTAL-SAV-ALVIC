@@ -1,63 +1,79 @@
 /* ==========================================
-   ESTILO PREMIUM ALVIC SAV
+   DISEÑO UNIFICADO PREMIUM ALVIC SAV
    ========================================== */
 :root {
-    --primary: #c9a473;
+    --primary: #c9a473;    /* Dorado Alvic */
     --primary-dark: #b89764;
-    --secondary: #444444;
-    --bg-light: #f4f1ea;
+    --secondary: #444444;  /* Gris corporativo */
+    --bg-light: #f4f1ea;   /* Crema de fondo */
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
 
 body { 
-    background: #f4f1ea !important;
     background: linear-gradient(135deg, #f4f1ea 0%, #ede9df 100%) !important;
+    background-attachment: fixed !important;
+    color: #333;
     min-height: 100vh;
 }
 
-/* PANTALLA DE LOGIN */
+/* --- VISTA DE LOGIN (CON FOTO Y BLUR) --- */
 #login-view {
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-size: cover;
-    background-position: center;
+    height: 100vh; width: 100vw;
+    display: flex; align-items: center; justify-content: center;
+    background-size: cover; background-position: center;
     position: relative;
 }
 
 #login-view::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.1);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.15); 
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
 }
 
 .login-card {
-    position: relative;
-    background: rgba(255, 255, 255, 0.9) !important;
-    padding: 40px !important;
-    border-radius: 20px !important;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1) !important;
-    width: 90%;
-    max-width: 400px;
+    position: relative; z-index: 10;
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+    padding: 45px !important; border-radius: 25px !important;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.15) !important;
+    width: 90%; max-width: 420px; text-align: center;
+}
+
+.login-logo-title { color: var(--primary); font-size: 2.2rem; font-weight: 800; }
+.login-logo-sub { color: var(--secondary); font-size: 1.8rem; font-weight: 300; }
+
+/* --- DASHBOARD INTERIOR --- */
+header {
+    background: white !important; padding: 15px 40px !important;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.03) !important; margin-bottom: 30px;
+}
+
+.kpi-card { 
+    background: white !important; border-radius: 20px !important;
+    padding: 30px !important; border-top: 5px solid var(--primary) !important;
+    box-shadow: 0 10px 25px rgba(184, 151, 100, 0.1) !important;
     text-align: center;
 }
 
-/* BOTONES DE LA TABLA (IDÉNTICOS AL RENDER) */
-.btn-ver, .btn-eliminar, table button {
-    padding: 8px 16px !important;
-    border-radius: 8px !important;
-    font-size: 11px !important;
+.table-container { 
+    background: white !important; border-radius: 20px !important;
+    padding: 20px !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+}
+
+/* --- BOTONES DE LA TABLA (SIN BORDES NEGROS) --- */
+.btn-ver, .btn-eliminar, td button {
+    padding: 8px 18px !important;
+    border-radius: 10px !important;
+    font-size: 0.75rem !important;
     font-weight: 700 !important;
     text-transform: uppercase !important;
     cursor: pointer !important;
-    border: none !important;
-    margin: 2px !important;
+    border: none !important; /* ELIMINA EL BORDE ANTIGUO */
+    display: inline-block !important;
+    margin: 4px !important;
+    transition: all 0.3s ease !important;
 }
 
 .btn-ver {
@@ -66,24 +82,19 @@ body {
     border: 1px solid #e2decb !important;
 }
 
+.btn-ver:hover { background-color: var(--primary) !important; color: white !important; }
+
 .btn-eliminar {
     background-color: #fff5f5 !important;
     color: #e57373 !important;
     border: 1px solid #ffdbdb !important;
 }
 
-/* DASHBOARD */
-.kpi-card {
-    background: white !important;
-    border-radius: 15px !important;
-    padding: 25px !important;
-    box-shadow: 0 8px 20px rgba(184, 151, 100, 0.1) !important;
-    border-top: 5px solid var(--primary) !important;
-}
+.btn-eliminar:hover { background-color: #e57373 !important; color: white !important; }
 
-.table-container {
-    background: white !important;
-    border-radius: 15px !important;
-    padding: 15px !important;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05) !important;
+/* Buscador */
+#search-input {
+    width: 100% !important; padding: 12px 20px !important;
+    border-radius: 12px !important; border: 1px solid #e2decb !important;
+    margin-bottom: 20px !important; outline: none !important;
 }
