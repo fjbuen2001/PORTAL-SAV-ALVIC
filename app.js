@@ -1,6 +1,30 @@
 /**
  * SAV Alvic Portal - Frontend Logic v7 (Buscador + Sesión + Miniaturas)
  */
+// --- Lógica de Fondo Aleatorio Premium ---
+const loginBackgrounds = [
+    'bg-login-1.jpg',
+    'bg-login-2.jpg',
+    'bg-login-3.jpg'
+];
+
+function setRandomBackground() {
+    const loginView = document.getElementById('login-view');
+    if (loginView) {
+        // Elegimos una al azar
+        const randomImg = loginBackgrounds[Math.floor(Math.random() * loginBackgrounds.length)];
+        // Aplicamos la imagen
+        loginView.style.backgroundImage = `url('${randomImg}')`;
+    }
+}
+
+// Ejecutar cuando cargue la página
+document.addEventListener('DOMContentLoaded', () => {
+    // Si no hay sesión iniciada, ponemos el fondo
+    if (!localStorage.getItem('sav_user')) {
+        setRandomBackground();
+    }
+});
 
 const state = {
     view: 'login',
@@ -622,5 +646,6 @@ function toBase64(file) {
         };
     });
 }
+
 
 
