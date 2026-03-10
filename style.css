@@ -155,3 +155,64 @@ table button, td .btn-ver, td .btn-eliminar {
 #incident-form .btn-cancel:hover { background-color: #e0e0e0; }
 
 /* Añadir clase a los divs que deben ocupar toda la pantalla desde app.js o dejarlos así. El grid-column: 1 / -1 hace la magia si se le pone la clase .full-width */
+/* ==========================================
+   7. BOTONES SECUNDARIOS Y DE NAVEGACIÓN
+   ========================================== */
+
+/* Botones de Navegación (Incidentes, Analíticas...) en la cabecera/menú */
+header button, .nav-btn, #btn-incidents, #btn-analytics {
+    background-color: transparent !important;
+    color: var(--secondary) !important;
+    border: none !important;
+    padding: 10px 20px !important;
+    font-size: 0.95rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    cursor: pointer !important;
+    border-bottom: 3px solid transparent !important; /* Preparado para el hover */
+    border-radius: 0 !important; /* Estos suelen quedar mejor sin borde redondo si son pestañas */
+    transition: all 0.3s ease !important;
+    margin: 0 5px !important;
+}
+
+/* Efecto al pasar el ratón o estar activo en el menú */
+header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn-analytics:hover {
+    color: var(--primary) !important;
+    border-bottom: 3px solid var(--primary) !important;
+    background-color: #fcfaf7 !important; /* Un ligerísimo fondo crema */
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* Botones Secundarios (Volver, Cancelar) */
+.btn-secondary, #btn-back, .btn-cancel, button[onclick*="goBack"], button[onclick*="hideView"] {
+    background-color: #f4f4f4 !important;
+    color: #666 !important;
+    border: 1px solid #ddd !important;
+    padding: 12px 25px !important;
+    border-radius: 12px !important;
+    font-size: 0.85rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    display: inline-block !important;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
+}
+
+/* Efecto Hover para Volver/Cancelar */
+.btn-secondary:hover, #btn-back:hover, .btn-cancel:hover, button[onclick*="goBack"]:hover {
+    background-color: #e8e8e8 !important;
+    color: #333 !important;
+    border-color: #ccc !important;
+    transform: translateY(-1px) !important;
+}
+
+/* Ajuste si el botón Volver y el título están en la misma línea */
+.view-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 25px !important;
+}
