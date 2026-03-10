@@ -128,4 +128,137 @@ td { padding: 15px; border-bottom: 1px solid #eee; }
     float: right;
     margin-bottom: 20px;
 }
+/* ==========================================
+   FORMULARIO "NUEVA INCIDENCIA" (REDISEÑO TOTAL)
+   ========================================== */
+
+/* 1. Contenedor principal del formulario */
+#new-incident-view .container {
+    max-width: 900px !important; /* Estrecha un poco para que sea más legible */
+    margin: 40px auto !important;
+}
+
+/* 2. Título de la sección */
+#new-incident-view h2 {
+    color: var(--secondary) !important;
+    font-size: 1.8rem !important;
+    margin-bottom: 30px !important;
+    font-weight: 700 !important;
+    border-bottom: 2px solid var(--primary) !important;
+    display: inline-block !important;
+    padding-bottom: 5px !important;
+}
+
+/* 3. La MAGIA del Grid: Crea una cuadrícula de 2 columnas */
+#incident-form {
+    background: white !important;
+    padding: 40px !important;
+    border-radius: 20px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important; /* Dos columnas iguales */
+    gap: 20px !important; /* Espacio uniforme entre campos */
+}
+
+/* 4. Estilo unificado para los grupos de entrada (Label + Input) */
+#incident-form .input-group {
+    margin-bottom: 0 !important; /* El grid se encarga del espacio */
+    display: flex !important;
+    flex-direction: column !important; /* Etiqueta arriba, input abajo */
+}
+
+/* 5. Etiquetas (Labels) limpias y profesionales */
+#incident-form label {
+    display: block !important;
+    font-size: 0.9rem !important;
+    font-weight: 600 !important;
+    color: #666 !important;
+    margin-bottom: 6px !important;
+    text-align: left !important; /* Siempre a la izquierda */
+}
+
+/* 6. Cajitas de texto y selectores premium */
+#incident-form input, 
+#incident-form select, 
+#incident-form textarea {
+    width: 100% !important;
+    padding: 12px 15px !important;
+    border-radius: 10px !important; /* Bordes redondeados */
+    border: 1px solid #ddd !important;
+    background-color: #fafafa !important;
+    font-size: 1rem !important;
+    color: #333 !important;
+    outline: none !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Efecto de foco (Brillo dorado Alvic) */
+#incident-form input:focus, 
+#incident-form select:focus, 
+#incident-form textarea:focus {
+    border-color: var(--primary) !important;
+    background-color: white !important;
+    box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.2) !important;
+}
+
+/* 7. Casos Especiales del Grid */
+
+/* La Descripción: Que ocupe las 2 columnas */
+#incident-form .input-group:has(textarea) {
+    grid-column: span 2 !important;
+}
+
+/* El Textarea de descripción más grande y limpio */
+#incident-form textarea {
+    height: 150px !important;
+    resize: vertical !important; /* Solo permite redimensionar hacia abajo */
+}
+
+/* Adjuntar Archivos: Alineado a la izquierda */
+#incident-form .input-group:has(input[type="file"]) {
+    grid-column: span 2 !important;
+    text-align: left !important;
+}
+
+/* 8. Los Botones (Enviar / Cancelar) */
+#incident-form .btn-group {
+    grid-column: span 2 !important; /* Ocupan todo el ancho */
+    display: flex !important;
+    justify-content: flex-start !important; /* Botones alineados a la izquierda */
+    gap: 15px !important;
+    margin-top: 30px !important;
+}
+
+/* Botón Enviar (El dorado Alvic) */
+#incident-form #btn-submit-incident {
+    background-color: var(--primary) !important;
+    color: white !important;
+    border-radius: 12px !important;
+    padding: 15px 30px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    cursor: pointer !important;
+    width: auto !important; /* Que no ocupe todo el ancho */
+    border: none !important;
+}
+
+#incident-form #btn-submit-incident:hover {
+    background-color: var(--primary-dark) !important;
+    transform: translateY(-2px);
+}
+
+/* Botón Cancelar (Gris sutil) */
+#incident-form .btn-cancel {
+    background-color: #f0f0f0 !important;
+    color: #666 !important;
+    border-radius: 12px !important;
+    padding: 15px 30px !important;
+    cursor: pointer !important;
+    border: 1px solid #ddd !important;
+}
+
+#incident-form .btn-cancel:hover {
+    background-color: #e0e0e0 !important;
+}
 
