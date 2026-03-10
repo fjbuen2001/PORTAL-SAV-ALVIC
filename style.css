@@ -216,3 +216,57 @@ header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn
     align-items: center !important;
     margin-bottom: 25px !important;
 }
+/* ==========================================
+   8. FILTROS DE BÚSQUEDA (CLIENTE Y MOTIVO)
+   ========================================== */
+
+/* Contenedor de los filtros (por si están junto al buscador) */
+.filters-section, .dashboard-controls, .search-container {
+    display: flex !important;
+    gap: 15px !important;
+    margin-bottom: 25px !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+}
+
+/* Ajuste del buscador para que comparta espacio con los filtros */
+#search-input {
+    margin-bottom: 0 !important; /* Quitamos el margen inferior porque ahora usa el gap del contenedor */
+    flex: 1 !important; /* Hace que el buscador ocupe el espacio sobrante */
+    min-width: 250px !important;
+}
+
+/* Estilo Premium para los Selectores (Cliente, Motivo, Estado...) */
+select[id*="filter"], select[id*="cliente"], select[id*="motivo"], select[id*="status"], .filter-select {
+    padding: 12px 20px !important;
+    border-radius: 12px !important;
+    border: 1px solid #e2decb !important;
+    background-color: white !important;
+    font-size: 0.9rem !important;
+    color: #555 !important;
+    outline: none !important;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.02) !important;
+    min-width: 200px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    
+    /* Magia: Quitamos la flecha fea del navegador y ponemos una dorada personalizada */
+    appearance: none !important; 
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="%23c9a473" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>') !important;
+    background-repeat: no-repeat !important;
+    background-position: right 15px center !important;
+    padding-right: 45px !important; /* Dejamos espacio para que el texto no pise la flecha */
+}
+
+/* Efecto al hacer clic en los filtros */
+select[id*="filter"]:focus, select[id*="cliente"]:focus, select[id*="motivo"]:focus, .filter-select:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.15) !important;
+}
+
+/* Efecto al pasar el ratón */
+select[id*="filter"]:hover, select[id*="cliente"]:hover, select[id*="motivo"]:hover, .filter-select:hover {
+    border-color: #d4b891 !important;
+}
