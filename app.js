@@ -1,3 +1,6 @@
+
+Copiar
+
 /**
  * SAV Alvic Portal - Frontend Logic v7 (Buscador + Sesión + Miniaturas)
  */
