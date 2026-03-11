@@ -1,9 +1,10 @@
-
-Copiar
-
 /**
  * SAV Alvic Portal - Frontend Logic v7 (Buscador + Sesión + Miniaturas)
  */
+
+// --- CONFIGURACIÓN GLOBAL ---
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrxhyh3a2NVp3GSNqWc8GjUEX-nQL8SBoN1f1EsMvh2MfUupumuPOzhE9U8pYdZ34lEw/exec';
+
 // --- Lógica de Fondo Aleatorio Premium ---
 const loginBackgrounds = [
     'bg-login-1.jpg',
@@ -482,9 +483,6 @@ function renderChart(canvasId, type, labels, data, label) {
         options: { responsive: true, maintainAspectRatio: true, aspectRatio: 2, plugins: { legend: { position: 'bottom' } } }
     });
 }
-
-// --- CONFIGURACIÓN ---
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrxhyh3a2NVp3GSNqWc8GjUEX-nQL8SBoN1f1EsMvh2MfUupumuPOzhE9U8pYdZ34lEw/exec';
 
 document.addEventListener('DOMContentLoaded', async () => {
     initViews();
