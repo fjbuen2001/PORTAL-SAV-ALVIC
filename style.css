@@ -9,6 +9,10 @@
     --secondary: #444444;     /* Gris texto oscuro */
     --bg-light: #f4f1ea;      /* Fondo crema suave */
     --glass-bg: rgba(255, 255, 255, 0.85); /* Cristal semi-transparente */
+    --card-border: #e2decb;   /* Borde tarjetas */
+    --text-muted: #999999;    /* Texto secundario apagado */
+    --text-secondary: #666666;/* Texto secundario */
+    --text-color: #333333;    /* Texto principal */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
@@ -23,6 +27,58 @@ body {
 
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 .hidden { display: none !important; }
+
+/* --- Clase base de vistas --- */
+.view { min-height: 100vh; }
+
+/* --- Glassmorphism card (usado en detail, form, analytics) --- */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.6);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+/* --- Botón genérico secundario --- */
+.btn {
+    background-color: #f4f4f4;
+    color: var(--text-secondary);
+    border: 1px solid var(--card-border);
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+.btn:hover {
+    background-color: #ebebeb;
+    border-color: #ccc;
+}
+
+/* --- Info de usuario en la cabecera --- */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* --- Selector de idioma --- */
+.lang-select {
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background-color: white;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+.lang-select:focus { border-color: var(--primary); }
 
 /* --- 2. VISTA DE LOGIN (IMAGEN + GLASSMORPHISM) --- */
 #login-view {
@@ -269,4 +325,39 @@ select[id*="filter"]:focus, select[id*="cliente"]:focus, select[id*="motivo"]:fo
 /* Efecto al pasar el ratón */
 select[id*="filter"]:hover, select[id*="cliente"]:hover, select[id*="motivo"]:hover, .filter-select:hover {
     border-color: #d4b891 !important;
+}
+
+/* ==========================================
+   9. TAB ACTIVO Y ANIMACIONES
+   ========================================== */
+
+/* Tab activo en el panel de admin */
+.nav-btn.active-tab {
+    color: var(--primary) !important;
+    border-bottom: 3px solid var(--primary) !important;
+    background-color: #fcfaf7 !important;
+    border-radius: 8px 8px 0 0 !important;
+}
+
+/* Animación de entrada en la tarjeta de login */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in {
+    animation: fadeInUp 0.5s ease forwards;
+}
+
+/* ==========================================
+   10. RESPONSIVE MÓVIL
+   ========================================== */
+@media (max-width: 768px) {
+    header { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    #incident-form { grid-template-columns: 1fr; }
+    #incident-form .input-group.full-width,
+    #incident-form [style*="span 2"] { grid-column: 1; }
+    .analytics-grid { grid-template-columns: 1fr !important; }
+    .login-card { padding: 30px 20px; }
+    .login-logo-title { font-size: 1.8rem; }
 }
