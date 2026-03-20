@@ -1,17 +1,16 @@
+
+Copiar
+
 /**
  * SAV Alvic Portal - Frontend Logic v7 (Buscador + Sesión + Miniaturas)
  */
-
-// --- CONFIGURACIÓN GLOBAL ---
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrxhyh3a2NVp3GSNqWc8GjUEX-nQL8SBoN1f1EsMvh2MfUupumuPOzhE9U8pYdZ34lEw/exec';
-
 // --- Lógica de Fondo Aleatorio Premium ---
 const loginBackgrounds = [
     'bg-login-1.jpg',
     'bg-login-2.jpg',
     'bg-login-3.jpg'
 ];
-
+ 
 function setRandomBackground() {
     const loginView = document.getElementById('login-view');
     if (loginView) {
@@ -21,7 +20,7 @@ function setRandomBackground() {
         loginView.style.backgroundImage = `url('${randomImg}')`;
     }
 }
-
+ 
 // Ejecutar cuando cargue la página
 document.addEventListener('DOMContentLoaded', () => {
     // Si no hay sesión iniciada, ponemos el fondo
@@ -29,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setRandomBackground();
     }
 });
-
+ 
 const state = {
     view: 'login',
     user: null,
@@ -37,7 +36,7 @@ const state = {
     loading: false,
     language: localStorage.getItem('sav_lang') || 'es'
 };
-
+ 
 const clientData = {
     'bricodepot': {
         name: 'Brico Depot',
@@ -60,7 +59,7 @@ const clientData = {
         stores: ["COMBOIRE", "ALES", "MONTELIMAR SUD", "AUBENAS", "CHAMBERY", "NARBONNE", "PONTARLIER", "SIMC MANOSQUE", "ROMANS", "ANNEMASSE", "ANNECY", "THYEZ", "SIMC DRAGUIGNAN", "ARLES", "ALBERTVILLE", "SALLANCHES 2", "MARGENCEL", "ISLE D ABEAU", "MOIRANS", "ST MARTIN D HERES", "CHATEAU-THIERRY", "REIMREMONT", "FONTAINE LES DIJON", "CEINES", "GAP", "BRIANCON", "ST JEAN DE MAURIENNE", "THONON AMPHION", "LA TOUR DU PIN", "PONT DES BEAUVOISIN", "DRUMETTAZ", "CREUSOT", "CHAMPAGNOLE", "NIMES", "ST JULIEN", "MAGASIN EN LIGNE", "PRIVAS", "SIMC LORGUES", "BELLEGARDE"]
     }
 };
-
+ 
 const translations = {
     es: {
         login_title: "Acceso Portal SAV", email: "Usuario", password: "Contraseña", login_btn: "Entrar al Portal", logout: "Cerrar Sesión",
@@ -129,47 +128,46 @@ const translations = {
         chart_client_volume: "Client Volume Distribution", chart_top_stores_full: "Top 10 Stores (Global)",
         chart_types_breakdown: "Incident Reason Breakdown", chart_products_breakdown: "Incidents by Model",
         search_placeholder: "Search by ID, store, client or status..."
+    },
+    fr: {
+        login_title: "Accès Portail SAV", email: "Identifiant", password: "Mot de passe", login_btn: "Accéder au Portail", logout: "Déconnexion",
+        pending: "En attente", closed: "Résolues", total: "Total", my_incidents: "Mes Réclamations", new_incident: "+ Nouvelle Réclamation",
+        table_id: "ID", table_date: "Date", table_store: "Magasin", table_status: "Statut", table_action: "Action", table_client: "Client",
+        create_incident_title: "Nouvelle Réclamation", back_btn: "← Retour", store: "Magasin / Centre", contact: "Personne de Contact",
+        email_contact: "Email Contact", order_num: "N° Commande (ex: SAP)", order_num_edb: "Numéro de document (ex. Bon de retour)", batch_num: "N° Lot", gama: "Modèle",
+        ean: "EAN (Code-barres)", incident_type: "Type de Réclamation", select_option: "Sélectionnez une option",
+        opt_trans: "Dommage transport", opt_dmg: "Produit endommagé (cassé / rayé)", opt_mfg: "Défaut de fabrication",
+        opt_qty: "Variation de quantité", opt_ref: "Produit incorrect / Référence erronée", opt_acc: "Accessoires / quincaillerie manquants",
+        opt_pkg: "Incident d'emballage", opt_other: "Autres (préciser)", specify_other: "Précisez le type de réclamation",
+        specify_gama: "Précisez le modèle",
+        gama_opt_jit: "Portes JIT", gama_opt_jit_atomia: "Portes JIT ATOMIA", gama_opt_jit_palma: "Portes JIT PALMA", gama_opt_jit_stock: "Portes STOCK",
+        gama_opt_encimeras: "Plans de travail", gama_opt_otros: "Autres (préciser)",
+        incident_desc: "Description détaillée de la Réclamation",
+        attachments: "Joindre PDF/Photos (Minimum 1)", send_btn: "Envoyer la Réclamation", cancel_btn: "Annuler",
+        detail_title: "Détail de la Réclamation", comments: "Commentaires", add_comment_placeholder: "Ajouter un commentaire...",
+        send_comment_btn: "Envoyer", detail_label: "Détail", detail_store: "Magasin", detail_date: "Date",
+        detail_status: "Statut", detail_client: "Client", detail_desc: "Description",
+        detail_contact: "Contact", detail_email: "Email", detail_order: "N° Commande", detail_batch: "N° Lot",
+        detail_gama: "Modèle", detail_ean: "EAN", detail_type: "Type",
+        view_btn: "Voir", delete_btn: "Supprimer", delete_confirm: "Êtes-vous sûr de vouloir supprimer cette réclamation ?", no_incidents: "Aucune réclamation.", no_incidents_admin: "Aucune réclamation globale.",
+        success_msg: "Réclamation créée et reçu PDF envoyé par email !", sending_btn: "Envoi en cours...",
+        config_error: "Vous devez configurer l'URL Apps Script dans app.js", send_error: "Erreur d'envoi : ",
+        status_recibida: "REÇU", status_proceso: "EN COURS", status_cerrada: "RÉSOLU", admin_display: "Administrateur Alvic",
+        login_error_invalid: "Identifiant ou mot de passe incorrect.",
+        admin_panel: "Panneau de Contrôle Alvic", analytics_title: "Analyse des Réclamations",
+        chart_top_stores: "Top 5 Magasins avec Réclamations", chart_product_issues: "Réclamations par Modèle",
+        tab_incidents: "Réclamations", tab_analytics: "Analytiques",
+        filter_client: "Filtrer par Client", filter_type: "Filtrer par Motif", all_clients: "Tous les clients", all_types: "Tous les motifs",
+        total_incidents: "Total Réclamations", most_reported_client: "Client avec le plus de réclamations", most_reported_store: "Magasin avec le plus de réclamations",
+        chart_client_volume: "Distribution par Volume Client", chart_top_stores_full: "Top 10 Magasins (Global)",
+        chart_types_breakdown: "Détail par Motif de Réclamation", chart_products_breakdown: "Réclamations par Modèle",
+        search_placeholder: "Rechercher par ID, magasin, client ou statut..."
     }
 };
-
-translations.fr = {
-    login_title: "Accès Portail SAV", email: "Utilisateur", password: "Mot de passe", login_btn: "Accéder au portail", logout: "Déconnexion",
-    pending: "En cours", closed: "Résolus", total: "Total", my_incidents: "Mes Incidents", new_incident: "+ Nouvel Incident",
-    table_id: "ID", table_date: "Date", table_store: "Magasin", table_status: "Statut", table_action: "Action", table_client: "Client",
-    create_incident_title: "Nouvel Incident", back_btn: "← Retour", store: "Magasin / Centre", contact: "Personne de contact",
-    email_contact: "Email de contact", order_num: "N° Commande (ex: SAP)", order_num_edb: "Numéro de document (ex. Bon de retour)", batch_num: "N° Lot", gama: "Modèle",
-    ean: "EAN (Code-barres)", incident_type: "Type d'incident", select_option: "Sélectionnez une option",
-    opt_trans: "Dommage transport", opt_dmg: "Produit endommagé (cassé / rayé)", opt_mfg: "Défaut de fabrication",
-    opt_qty: "Variation de quantité", opt_ref: "Produit incorrect / Référence erronée", opt_acc: "Accessoires / ferrures manquants",
-    opt_pkg: "Incident d'emballage", opt_other: "Autres (préciser)", specify_other: "Précisez le type d'incident",
-    specify_gama: "Précisez le modèle",
-    gama_opt_jit: "Portes JIT", gama_opt_jit_atomia: "Portes JIT ATOMIA", gama_opt_jit_palma: "Portes JIT PALMA", gama_opt_jit_stock: "Portes STOCK",
-    gama_opt_encimeras: "Plans de travail", gama_opt_otros: "Autres (préciser)",
-    incident_desc: "Description détaillée de l'incident",
-    attachments: "Joindre PDF/Photos (Min 1)", send_btn: "Envoyer l'incident", cancel_btn: "Annuler",
-    detail_title: "Détail de l'incident", comments: "Commentaires", add_comment_placeholder: "Ajouter un commentaire...",
-    send_comment_btn: "Envoyer le commentaire", detail_label: "Détail", detail_store: "Magasin", detail_date: "Date",
-    detail_status: "Statut", detail_client: "Client", detail_desc: "Description",
-    detail_contact: "Contact", detail_email: "Email", detail_order: "N° Commande", detail_batch: "N° Lot",
-    detail_gama: "Modèle", detail_ean: "EAN", detail_type: "Type",
-    view_btn: "Voir", delete_btn: "Supprimer", delete_confirm: "Êtes-vous sûr de vouloir supprimer cet incident ?", no_incidents: "Aucun incident trouvé.", no_incidents_admin: "Aucun incident global trouvé.",
-    success_msg: "Incident créé et reçu PDF envoyé par email !", sending_btn: "Envoi en cours...",
-    config_error: "Vous devez configurer l'URL Apps Script dans app.js", send_error: "Erreur d'envoi : ",
-    status_recibida: "REÇU", status_proceso: "EN COURS", status_cerrada: "RÉSOLU", admin_display: "Administrateur Alvic",
-    login_error_invalid: "Nom d'utilisateur ou mot de passe incorrect.",
-    admin_panel: "Panneau de contrôle Alvic", analytics_title: "Analyse des incidents",
-    chart_top_stores: "Top 5 magasins avec incidents", chart_product_issues: "Incidents par modèle",
-    tab_incidents: "Incidents", tab_analytics: "Analytiques",
-    filter_client: "Filtrer par client", filter_type: "Filtrer par motif", all_clients: "Tous les clients", all_types: "Tous les motifs",
-    total_incidents: "Total des incidents", most_reported_client: "Client avec le plus d'incidents", most_reported_store: "Magasin avec le plus d'incidents",
-    chart_client_volume: "Distribution par volume client", chart_top_stores_full: "Top 10 Magasins (Global)",
-    chart_types_breakdown: "Détail par motif d'incident", chart_products_breakdown: "Incidents par modèle",
-    search_placeholder: "Rechercher par ID, magasin, client ou statut..."
-};
-
+ 
 let views = {};
 let selectedFiles = [];
-
+ 
 function initViews() {
     views = {
         login: document.getElementById('login-view'),
@@ -179,7 +177,7 @@ function initViews() {
         admin: document.getElementById('admin-view')
     };
 }
-
+ 
 window.changeLanguage = (lang) => {
     state.language = lang;
     localStorage.setItem('sav_lang', lang);
@@ -197,23 +195,23 @@ window.changeLanguage = (lang) => {
     if (selL) selL.value = lang;
     if (selLogin) selLogin.value = lang;
 };
-
+ 
 function showView(viewName) {
     if (!views[viewName]) return;
     Object.keys(views).forEach(v => views[v]?.classList.add('hidden'));
     views[viewName].classList.remove('hidden');
     state.view = viewName;
 }
-
+ 
 window.viewDetail = (id) => {
     const inc = state.incidents.find(i => i.id === id);
     if (!inc) return;
     const lang = state.language;
     const t = translations[lang];
-
+ 
     document.getElementById('detail-id-title').innerText = `${t.detail_label}: ${inc.id}`;
     const orderLbl = (inc.cliente === 'EDB') ? t.order_num_edb : t.detail_order;
-
+ 
     document.getElementById('detail-content').innerHTML = `
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; width:100%;">
             <div><strong>${t.detail_client}:</strong> ${inc.cliente || '-'}</div>
@@ -243,26 +241,26 @@ window.viewDetail = (id) => {
     showView('detail');
     renderComments(inc);
 };
-
+ 
 function renderComments(inc) {
     const list = document.getElementById('comments-list');
     if (!list) return;
     list.innerHTML = '';
-
+ 
     const parseComments = (str) => str ? str.split('\n---\n').filter(Boolean) : [];
     const alvicComments = parseComments(inc.comentarios_alvic);
     const clientComments = parseComments(inc.comentarios_cliente);
-
+ 
     const all = [
         ...alvicComments.map(c => ({ text: c, type: 'alvic' })),
         ...clientComments.map(c => ({ text: c, type: 'client' }))
     ];
-
+ 
     if (all.length === 0) {
         list.innerHTML = `<p style="font-size: 0.8rem; color: var(--text-muted); text-align: center;">Sin mensajes.</p>`;
         return;
     }
-
+ 
     list.innerHTML = all.map(c => `
         <div style="background: ${c.type === 'alvic' ? 'rgba(184, 151, 100, 0.1)' : 'rgba(0,0,0,0.03)'}; 
                     padding: 10px 14px; border-radius: 12px; border-left: 4px solid ${c.type === 'alvic' ? 'var(--primary)' : '#ccc'};">
@@ -273,7 +271,7 @@ function renderComments(inc) {
         </div>
     `).join('');
 }
-
+ 
 function populateStores() {
     const select = document.getElementById('tienda-select');
     if (!select || !state.user || !state.user.stores) return;
@@ -287,33 +285,33 @@ function populateStores() {
         select.appendChild(opt);
     });
 }
-
+ 
 window.updateKPIs = () => {
     const myInc = state.incidents.filter(i => state.user?.role === 'ADMIN' ? true : i.cliente === state.user?.cliente);
     const closedStats = ['RESUELTO', 'CERRADA'];
     const closedCount = myInc.filter(i => closedStats.includes((i.estado || '').toUpperCase())).length;
     const pendingCount = myInc.length - closedCount;
-
+ 
     document.getElementById('kpi-pending').innerText = pendingCount;
     document.getElementById('kpi-closed').innerText = closedCount;
     document.getElementById('kpi-total').innerText = myInc.length;
 }
-
+ 
 function renderIncidents() {
     const lang = state.language;
     const body = document.getElementById('incident-list-body');
     if (!body) return;
-
+ 
     const filtered = state.incidents.filter(i => state.user?.role === 'ADMIN' ? true : i.cliente === state.user?.cliente);
-
+ 
     body.innerHTML = filtered.map(inc => {
         let statusKey = 'status_recibida';
         let colorClass = 'status-received';
         const st = (inc.estado || '').toUpperCase();
-
+ 
         if (st === 'EN PROCESO') { statusKey = 'status_proceso'; colorClass = 'status-inprogress'; }
         else if (st === 'RESUELTO' || st === 'CERRADA') { statusKey = 'status_cerrada'; colorClass = 'status-closed'; }
-
+ 
         return `
             <tr>
                 <td>${inc.id}</td>
@@ -330,7 +328,7 @@ function renderIncidents() {
         `;
     }).join('') || `<tr><td colspan="5" style="padding: 40px; text-align: center; color: var(--text-muted);">${translations[lang].no_incidents}</td></tr>`;
 }
-
+ 
 function renderAdminIncidents() {
     const lang = state.language;
     const body = document.getElementById('admin-incident-list');
@@ -340,7 +338,7 @@ function renderAdminIncidents() {
         { val: 'EN PROCESO', key: 'status_proceso' },
         { val: 'RESUELTO', key: 'status_cerrada' }
     ];
-
+ 
     body.innerHTML = state.incidents.map(inc => `
         <tr>
             <td>${inc.id}</td>
@@ -366,7 +364,7 @@ function renderAdminIncidents() {
         </tr>
     `).join('') || `<tr><td colspan="5" style="padding: 40px; text-align: center; color: var(--text-muted);">${translations[lang].no_incidents_admin}</td></tr>`;
 }
-
+ 
 window.updateIncidentStatus = async (id, newStatus) => {
     const inc = state.incidents.find(i => i.id === id);
     if (!inc) return;
@@ -381,7 +379,7 @@ window.updateIncidentStatus = async (id, newStatus) => {
         });
     } catch (err) { console.error('Error al actualizar estado:', err); }
 };
-
+ 
 window.deleteIncident = async (id) => {
     const lang = state.language;
     if (!confirm(translations[lang].delete_confirm)) return;
@@ -406,7 +404,7 @@ window.deleteIncident = async (id) => {
         });
     }
 };
-
+ 
 // --- ANALYTICS ---
 let charts = {};
 function switchAdminTab(tab) {
@@ -423,7 +421,7 @@ function switchAdminTab(tab) {
         initAdvancedAnalytics();
     }
 }
-
+ 
 function initAdvancedAnalytics() {
     const filterClient = document.getElementById('filter-client');
     const filterType = document.getElementById('filter-type');
@@ -443,7 +441,7 @@ function initAdvancedAnalytics() {
     }
     updateAnalytics();
 }
-
+ 
 function updateAnalytics() {
     const clientVal = document.getElementById('filter-client').value;
     const typeVal = document.getElementById('filter-type').value;
@@ -471,7 +469,7 @@ function updateAnalytics() {
     renderChart('chart-types-full', 'polarArea', Object.keys(typeCounts), Object.values(typeCounts), 'Incident Types');
     renderChart('chart-products-full', 'doughnut', Object.keys(productCounts), Object.values(productCounts), 'Products');
 }
-
+ 
 function renderChart(canvasId, type, labels, data, label) {
     const ctx = document.getElementById(canvasId)?.getContext('2d');
     if (!ctx) return;
@@ -483,11 +481,14 @@ function renderChart(canvasId, type, labels, data, label) {
         options: { responsive: true, maintainAspectRatio: true, aspectRatio: 2, plugins: { legend: { position: 'bottom' } } }
     });
 }
-
+ 
+// --- CONFIGURACIÓN ---
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxrxhyh3a2NVp3GSNqWc8GjUEX-nQL8SBoN1f1EsMvh2MfUupumuPOzhE9U8pYdZ34lEw/exec';
+ 
 document.addEventListener('DOMContentLoaded', async () => {
     initViews();
     changeLanguage(state.language);
-
+ 
     // SISTEMA DE SESIÓN SIN FLASHEO
     const savedUser = localStorage.getItem('sav_user');
     if (savedUser) {
@@ -511,9 +512,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             else { updateKPIs(); renderIncidents(); }
         } catch (error) { localStorage.removeItem('sav_user'); showView('login'); }
     } else { showView('login'); }
-
+ 
     // BUSCADOR EN TIEMPO REAL
-    document.querySelectorAll('#search-input, #search-input-admin').forEach(input => {
+    document.querySelectorAll('#search-input').forEach(input => {
         input.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
             const isAdmin = state.user.role === 'ADMIN';
@@ -525,13 +526,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
     });
-
+ 
     // SISTEMA DE MINIATURAS
     const fileInput = document.getElementById('file-attachments');
     const previewContainer = document.createElement('div');
     previewContainer.style.cssText = 'display: flex; gap: 12px; flex-wrap: wrap; margin-top: 15px;';
     if (fileInput) fileInput.parentNode.insertBefore(previewContainer, fileInput.nextSibling);
-
+ 
     fileInput?.addEventListener('change', (e) => {
         Array.from(e.target.files).forEach(file => {
             if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
@@ -541,7 +542,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderPreviews(previewContainer);
         fileInput.value = '';
     });
-
+ 
     // LOGIN
     document.getElementById('login-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -551,7 +552,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const oldText = btn.innerText;
         btn.innerText = (state.language === 'es') ? 'Verificando...' : 'Verifying...';
         btn.disabled = true;
-
+ 
         try {
             const resp = await fetch(APP_SCRIPT_URL, {
                 method: 'POST',
@@ -579,7 +580,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } catch (error) { alert("Error de conexión"); }
         finally { btn.innerText = oldText; btn.disabled = false; }
     });
-
+ 
     // COMENTARIOS
     document.getElementById('add-comment-btn')?.addEventListener('click', async () => {
         const input = document.getElementById('new-comment');
@@ -596,24 +597,30 @@ document.addEventListener('DOMContentLoaded', async () => {
             await fetch(APP_SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ action: 'addComment', payload: { id: id, text: text, role: state.user.role } }) });
         } catch (err) { console.error(err); }
     });
-
+ 
     // LOGOUT
     [document.getElementById('logout-btn'), document.getElementById('logout-btn-admin')].forEach(btn =>
         btn?.addEventListener('click', () => {
             localStorage.removeItem('sav_user'); location.reload();
         }));
-
+ 
     // BOTONES NAVEGACIÓN
     document.getElementById('new-incident-btn')?.addEventListener('click', () => { populateStores(); showView('create'); });
     document.getElementById('back-to-dash')?.addEventListener('click', () => showView('dashboard'));
     document.getElementById('back-to-dash-from-detail')?.addEventListener('click', () => showView(state.user?.role === 'ADMIN' ? 'admin' : 'dashboard'));
     document.getElementById('cancel-create')?.addEventListener('click', () => showView('dashboard'));
-
+ 
     // TIPO INCIDENCIA OTROS
+    // TIPO INCIDENCIA OTROS - listener
     document.getElementById('incident-type-select')?.addEventListener('change', (e) => {
         document.getElementById('otros-tipo-group').classList.toggle('hidden', e.target.value !== 'Otros');
     });
-
+ 
+    // GAMA OTROS
+    document.getElementById('gama-select')?.addEventListener('change', (e) => {
+        document.getElementById('otros-gama-group').classList.toggle('hidden', e.target.value !== 'Otros');
+    });
+ 
     // ENVÍO INCIDENCIA
     document.getElementById('incident-form')?.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -640,14 +647,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         finally { btn.disabled = false; }
     });
 });
-
+ 
 async function loadIncidents() {
     try {
         const resp = await fetch(`${APP_SCRIPT_URL}?action=getIncidents`);
         state.incidents = await resp.json();
     } catch (err) { console.error(err); }
 }
-
+ 
 function renderPreviews(container) {
     container.innerHTML = '';
     selectedFiles.forEach((file, index) => {
@@ -662,9 +669,9 @@ function renderPreviews(container) {
         reader.readAsDataURL(file);
     });
 }
-
+ 
 window.removeFile = (index) => { selectedFiles.splice(index, 1); document.getElementById('file-attachments').dispatchEvent(new Event('change')); };
-
+ 
 function toBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader(); reader.readAsDataURL(file);
