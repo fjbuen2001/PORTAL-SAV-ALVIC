@@ -1,7 +1,7 @@
 /* =========================================================================
    ALVIC SAV PORTAL - MASTER CSS (VERSIÓN DEFINITIVA PREMIUM)
    ========================================================================= */
-
+ 
 /* --- 1. VARIABLES Y RESETEO GLOBAL --- */
 :root {
     --primary: #c9a473;       /* Dorado Alvic */
@@ -9,14 +9,16 @@
     --secondary: #444444;     /* Gris texto oscuro */
     --bg-light: #f4f1ea;      /* Fondo crema suave */
     --glass-bg: rgba(255, 255, 255, 0.85); /* Cristal semi-transparente */
-    --card-border: #e2decb;   /* Borde tarjetas */
-    --text-muted: #999999;    /* Texto secundario apagado */
-    --text-secondary: #666666;/* Texto secundario */
-    --text-color: #333333;    /* Texto principal */
+ 
+    /* Variables complementarias usadas en el HTML */
+    --text-muted: #aaaaaa;
+    --text-secondary: #777777;
+    --text-color: #333333;
+    --card-border: #e8e3d8;
 }
-
+ 
 * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Arial, sans-serif; }
-
+ 
 body { 
     background: linear-gradient(135deg, #f4f1ea 0%, #ede9df 100%) !important;
     background-attachment: fixed !important;
@@ -24,62 +26,10 @@ body {
     line-height: 1.6;
     min-height: 100vh;
 }
-
+ 
 .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 .hidden { display: none !important; }
-
-/* --- Clase base de vistas --- */
-.view { min-height: 100vh; }
-
-/* --- Glassmorphism card (usado en detail, form, analytics) --- */
-.glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.6);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-}
-
-/* --- Botón genérico secundario --- */
-.btn {
-    background-color: #f4f4f4;
-    color: var(--text-secondary);
-    border: 1px solid var(--card-border);
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: inline-block;
-}
-.btn:hover {
-    background-color: #ebebeb;
-    border-color: #ccc;
-}
-
-/* --- Info de usuario en la cabecera --- */
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* --- Selector de idioma --- */
-.lang-select {
-    padding: 6px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--card-border);
-    background-color: white;
-    font-size: 0.85rem;
-    color: var(--text-secondary);
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.2s ease;
-}
-.lang-select:focus { border-color: var(--primary); }
-
+ 
 /* --- 2. VISTA DE LOGIN (IMAGEN + GLASSMORPHISM) --- */
 #login-view {
     position: relative; width: 100vw; height: 100vh;
@@ -87,13 +37,13 @@ body {
     background-size: cover; background-position: center;
     background-repeat: no-repeat;
 }
-
+ 
 #login-view::before {
     content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.15); 
     backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 1;
 }
-
+ 
 .login-card {
     position: relative; z-index: 2;
     background: var(--glass-bg);
@@ -102,11 +52,11 @@ body {
     box-shadow: 0 20px 50px rgba(0,0,0,0.15);
     width: 90%; max-width: 420px; text-align: center;
 }
-
+ 
 .login-logo { margin-bottom: 20px; }
 .login-logo-title { color: var(--primary); font-size: 2.2rem; font-weight: 800; display: inline-block;}
 .login-logo-sub { color: var(--secondary); font-size: 1.8rem; font-weight: 300; display: inline-block; margin-left: 5px; }
-
+ 
 /* Estilo para las cajitas del Login y el Selector de Idioma */
 #login-form { text-align: left; }
 #login-form label { display: block; font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 5px; margin-top: 15px; }
@@ -118,15 +68,15 @@ body {
     border-color: var(--primary); background-color: #ffffff; box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.2);
 }
 #language-selector-login { width: auto; padding: 8px 12px; float: right; margin-bottom: 20px; }
-
+ 
 /* --- 3. DASHBOARD Y CABECERA --- */
 header {
     background: white; padding: 15px 40px; display: flex; justify-content: space-between;
     align-items: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 30px; border-radius: 0 0 20px 20px;
 }
-
+ 
 .logo strong { color: var(--primary); font-size: 1.6rem; letter-spacing: 1px; }
-
+ 
 /* Tarjetas KPI */
 .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-bottom: 35px; }
 .kpi-card { 
@@ -136,14 +86,14 @@ header {
 .kpi-card:hover { transform: translateY(-5px); }
 .kpi-card h3 { color: #888; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1.5px; margin-bottom: 10px; }
 .kpi-card h1 { font-size: 3rem; color: var(--secondary); font-weight: 800; }
-
+ 
 /* Buscador */
 #search-input {
     width: 100%; padding: 12px 20px; border-radius: 12px; border: 1px solid #e2decb;
     margin-bottom: 20px; outline: none; background: white;
 }
 #search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.1); }
-
+ 
 /* --- 4. TABLA DE INCIDENCIAS --- */
 .table-container { 
     background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.05); padding: 10px;
@@ -151,7 +101,7 @@ header {
 table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
 th { background: #fdfaf5; padding: 18px; text-align: left; font-size: 0.8rem; text-transform: uppercase; color: var(--primary-dark); font-weight: 700; }
 td { padding: 18px; background: white; border-bottom: 1px solid #f4f1ea; font-size: 0.95rem; vertical-align: middle; }
-
+ 
 /* Botones de acción en la tabla (Ver y Eliminar) - REGLA FUERTE */
 table button, td .btn-ver, td .btn-eliminar {
     padding: 8px 16px !important; border-radius: 8px !important; font-size: 0.75rem !important;
@@ -162,36 +112,36 @@ table button, td .btn-ver, td .btn-eliminar {
 .btn-ver:hover { background-color: #c9a473 !important; color: white !important; }
 .btn-eliminar { background-color: #fff5f5 !important; color: #e57373 !important; border: 1px solid #ffdbdb !important; }
 .btn-eliminar:hover { background-color: #e57373 !important; color: white !important; }
-
+ 
 /* Badges de Estado */
 .status-badge { padding: 6px 14px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 .status-received { background: #e3f2fd; color: #1976d2; }
 .status-inprogress { background: #fff3e0; color: #f57c00; }
 .status-closed { background: #e8f5e9; color: #388e3c; }
-
+ 
 /* --- 5. BOTONES GLOBALES --- */
 .btn-primary {
     background-color: var(--primary); color: white; border: none; padding: 15px 30px; border-radius: 12px;
     font-weight: 700; cursor: pointer; width: 100%; text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s;
 }
 .btn-primary:hover { background-color: var(--primary-dark); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201, 164, 115, 0.4); }
-
+ 
 /* --- 6. FORMULARIO "NUEVA INCIDENCIA" (EL GRID QUE PASASTE AJUSTADO) --- */
 #new-incident-view .container { max-width: 900px; margin: 40px auto; }
 #new-incident-view h2 {
     color: var(--secondary); font-size: 1.8rem; margin-bottom: 30px; font-weight: 700;
     border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 5px;
 }
-
+ 
 #incident-form {
     background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.05);
     display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
 }
-
+ 
 /* Soporte para navegadores que no leen :has() */
 .input-group { display: flex; flex-direction: column; }
 .input-group.full-width { grid-column: 1 / -1; } 
-
+ 
 #incident-form label { display: block; font-size: 0.9rem; font-weight: 600; color: #666; margin-bottom: 6px; text-align: left; }
 #incident-form input, #incident-form select, #incident-form textarea {
     width: 100%; padding: 12px 15px; border-radius: 10px; border: 1px solid #ddd;
@@ -200,21 +150,21 @@ table button, td .btn-ver, td .btn-eliminar {
 #incident-form input:focus, #incident-form select:focus, #incident-form textarea:focus {
     border-color: var(--primary); background-color: white; box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.2);
 }
-
+ 
 #incident-form textarea { height: 150px; resize: vertical; }
-
+ 
 #incident-form .btn-group { grid-column: 1 / -1; display: flex; justify-content: flex-start; gap: 15px; margin-top: 30px; }
 #incident-form #btn-submit-incident { width: auto; }
 #incident-form .btn-cancel {
     background-color: #f0f0f0; color: #666; border-radius: 12px; padding: 15px 30px; cursor: pointer; border: 1px solid #ddd;
 }
 #incident-form .btn-cancel:hover { background-color: #e0e0e0; }
-
+ 
 /* Añadir clase a los divs que deben ocupar toda la pantalla desde app.js o dejarlos así. El grid-column: 1 / -1 hace la magia si se le pone la clase .full-width */
 /* ==========================================
    7. BOTONES SECUNDARIOS Y DE NAVEGACIÓN
    ========================================== */
-
+ 
 /* Botones de Navegación (Incidentes, Analíticas...) en la cabecera/menú */
 header button, .nav-btn, #btn-incidents, #btn-analytics {
     background-color: transparent !important;
@@ -231,7 +181,7 @@ header button, .nav-btn, #btn-incidents, #btn-analytics {
     transition: all 0.3s ease !important;
     margin: 0 5px !important;
 }
-
+ 
 /* Efecto al pasar el ratón o estar activo en el menú */
 header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn-analytics:hover {
     color: var(--primary) !important;
@@ -239,7 +189,7 @@ header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn
     background-color: #fcfaf7 !important; /* Un ligerísimo fondo crema */
     border-radius: 8px 8px 0 0 !important;
 }
-
+ 
 /* Botones Secundarios (Volver, Cancelar) */
 .btn-secondary, #btn-back, .btn-cancel, button[onclick*="goBack"], button[onclick*="hideView"] {
     background-color: #f4f4f4 !important;
@@ -256,7 +206,7 @@ header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn
     display: inline-block !important;
     box-shadow: 0 2px 5px rgba(0,0,0,0.02) !important;
 }
-
+ 
 /* Efecto Hover para Volver/Cancelar */
 .btn-secondary:hover, #btn-back:hover, .btn-cancel:hover, button[onclick*="goBack"]:hover {
     background-color: #e8e8e8 !important;
@@ -264,7 +214,7 @@ header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn
     border-color: #ccc !important;
     transform: translateY(-1px) !important;
 }
-
+ 
 /* Ajuste si el botón Volver y el título están en la misma línea */
 .view-header {
     display: flex !important;
@@ -275,7 +225,7 @@ header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn
 /* ==========================================
    8. FILTROS DE BÚSQUEDA (CLIENTE Y MOTIVO)
    ========================================== */
-
+ 
 /* Contenedor de los filtros (por si están junto al buscador) */
 .filters-section, .dashboard-controls, .search-container {
     display: flex !important;
@@ -284,14 +234,14 @@ header button:hover, .nav-btn:hover, .nav-btn.active, #btn-incidents:hover, #btn
     flex-wrap: wrap !important;
     align-items: center !important;
 }
-
+ 
 /* Ajuste del buscador para que comparta espacio con los filtros */
 #search-input {
     margin-bottom: 0 !important; /* Quitamos el margen inferior porque ahora usa el gap del contenedor */
     flex: 1 !important; /* Hace que el buscador ocupe el espacio sobrante */
     min-width: 250px !important;
 }
-
+ 
 /* Estilo Premium para los Selectores (Cliente, Motivo, Estado...) */
 select[id*="filter"], select[id*="cliente"], select[id*="motivo"], select[id*="status"], .filter-select {
     padding: 12px 20px !important;
@@ -315,53 +265,106 @@ select[id*="filter"], select[id*="cliente"], select[id*="motivo"], select[id*="s
     background-position: right 15px center !important;
     padding-right: 45px !important; /* Dejamos espacio para que el texto no pise la flecha */
 }
-
+ 
 /* Efecto al hacer clic en los filtros */
 select[id*="filter"]:focus, select[id*="cliente"]:focus, select[id*="motivo"]:focus, .filter-select:focus {
     border-color: var(--primary) !important;
     box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.15) !important;
 }
-
+ 
 /* Efecto al pasar el ratón */
 select[id*="filter"]:hover, select[id*="cliente"]:hover, select[id*="motivo"]:hover, .filter-select:hover {
     border-color: #d4b891 !important;
 }
-
 /* ==========================================
-   9. TAB ACTIVO Y ANIMACIONES
+   9. CLASES DE UTILIDAD FALTANTES
    ========================================== */
-
-/* Tab activo en el panel de admin */
-.nav-btn.active-tab {
+ 
+/* Clase base de las vistas */
+.view { display: block; min-height: 100vh; }
+.view.hidden { display: none !important; }
+ 
+/* Glassmorphism */
+.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+ 
+/* Animación de entrada */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.fade-in { animation: fadeIn 0.4s ease forwards; }
+ 
+/* Pestaña activa en admin */
+.active-tab {
     color: var(--primary) !important;
     border-bottom: 3px solid var(--primary) !important;
     background-color: #fcfaf7 !important;
     border-radius: 8px 8px 0 0 !important;
 }
-
-/* Animación de entrada en la tarjeta de login */
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
+ 
+/* Mini KPI analíticas */
+.kpi-card-mini {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(184, 151, 100, 0.08);
+    border-top: 4px solid var(--primary);
+    transition: transform 0.3s ease;
 }
-.fade-in {
-    animation: fadeInUp 0.5s ease forwards;
+.kpi-card-mini:hover { transform: translateY(-3px); }
+ 
+/* Toast notifications */
+.toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-
-/* ==========================================
-   10. RESPONSIVE MÓVIL
-   ========================================== */
-@media (max-width: 768px) {
-    header { padding: 12px 20px; flex-wrap: wrap; gap: 10px; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
-    #incident-form { grid-template-columns: 1fr; }
-    #incident-form .input-group.full-width,
-    #incident-form [style*="span 2"] { grid-column: 1; }
-    .analytics-grid { grid-template-columns: 1fr !important; }
-    .login-card { padding: 30px 20px; }
-    .login-logo-title { font-size: 1.8rem; }
+ 
+/* Info usuario en cabecera */
+.user-info { display: flex; align-items: center; gap: 14px; }
+ 
+/* Selector de idioma */
+.lang-select {
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+    background-color: white;
+    font-size: 0.85rem;
+    cursor: pointer;
+    outline: none;
+    color: var(--text-color);
 }
-
-
-
-
+.lang-select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(201, 164, 115, 0.15);
+}
+ 
+/* Botón genérico .btn */
+.btn {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: 1px solid var(--card-border);
+    background-color: #fdfaf5;
+    color: var(--primary);
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+.btn:hover { background-color: var(--primary); color: white; border-color: var(--primary); }
+ 
+/* Cabecera de tabla */
+.table-header { padding: 16px 10px 8px; }
+.table-header h3 { font-size: 1rem; color: var(--secondary); font-weight: 700; }
